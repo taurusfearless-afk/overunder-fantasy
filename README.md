@@ -1,3 +1,6 @@
+# V2 izmene
+Početna redizajnirana; season dashboard; ikone; AIK račun u Budžetu; pravila i nagrade dopunjeni; Redži Miler fora u footeru.
+
 # OVERUNDER 2026/27 — mobile-first sajt
 
 Ovo je statički HTML/CSS/JavaScript sajt. Ne zahteva bazu, server ni plaćeni hosting.

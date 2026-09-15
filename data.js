@@ -53,7 +53,7 @@ window.OVERUNDER_DATA = {
     participation:[
       "Liga ima 18 učesnika.",
       "Kotizacija za sezonu iznosi 5.000 RSD i obavezna je do Nove godine.",
-      "Svi članovi dobijaju majicu i jedno besplatno učešće za kviz Kvizna Čaršija."
+      "Svi članovi dobijaju majicu i jedno besplatno učešće za kviz Kvizna Čaršija (Žika časti)."
     ],
     penalties:[
       "Četvorica sa najmanje poena u regularnom kolu uplaćuju po 600 RSD.",
@@ -73,7 +73,7 @@ window.OVERUNDER_DATA = {
     special:[
       "Rus i Mijanović imaju besplatno učešće.",
       "Mitski, Amer i Goran imaju po tri besplatna bona koji pokrivaju neuspešno kolo.",
-      "Datum žurke proveriti — u dostavljenom dokumentu stoji 24.04.2024."
+      "Žurka je planirana za 24.04.2027."
     ]
   },
   prizes:[
@@ -81,6 +81,9 @@ window.OVERUNDER_DATA = {
     {title:"2. MESTO",text:"10.000 RSD + besplatno učešće sledeće sezone"},
     {title:"3. MESTO",text:"Besplatno učešće sledeće sezone"},
     {title:"POBEDNIK KUPA — Krezin kup",text:"8.000 RSD + trofej"},
-    {title:"NAJVIŠE POENA U JEDNOM KOLU",text:"Broj poena × 20 RSD (ako rekord drži šampion, nagrada ide prvom sledećem)"}
-  ]
+    {title:"NAJVIŠE POENA U JEDNOM KOLU",text:"Broj poena × 20 RSD (ako rekord drži šampion, nagrada ide prvom sledećem)"},
+    {title:"POBEDNIK REDŽI MILER LIGE",text:"6.000 EURA"}
+  ],
+  payment:{bank:"AIK BANKA",account:"105 0400330031588 16",holder:"ALEKSANDAR MILIĆ"},
+  footerJoke:"Ko prvi nasedne na foru od 6000 EUR-a, dobija majicu Magrca koju mora da nosi na žurci i da služi rakiju 😃"
 };
