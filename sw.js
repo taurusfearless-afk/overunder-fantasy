@@ -1,4 +1,4 @@
-const CACHE='overunder-v53';
+const CACHE='overunder-v55';
 const CORE=['./','./index.html','./style.css','./premium-v3.css','./data.js','./script.js','./v33.js','./manifest.webmanifest','./assets/icon-192.png.png','./assets/icon-512.png.png','./assets/logo-main-transparent.png.png','./assets/logo-header-v2.png.png','./assets/arena-bg.png.png'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
