@@ -1,0 +1,25 @@
+{
+  "name": "OVERUNDER EuroLeague Fantasy 2026/27",
+  "short_name": "OVERUNDER",
+  "description": "Privatna OVERUNDER EuroLeague Fantasy liga 2026/27",
+  "start_url": "./#/home",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#050505",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "assets/logo.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/logo.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
