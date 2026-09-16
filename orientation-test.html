@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="sr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050505">
+<title>OVERUNDER · Orientation Test</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#050505;color:#eee;font-family:Arial,sans-serif}body{padding:20px}.box{max-width:760px;margin:auto;border:1px solid #d8ad48;border-radius:18px;padding:20px;background:#0d0d0d;box-shadow:0 0 30px rgba(216,173,72,.12)}h1{margin:0 0 6px;color:#f1c85e;font-size:28px}p{color:#aaa;line-height:1.45}.status{font-size:28px;font-weight:800;margin:18px 0;padding:16px;border-radius:12px;background:#151515}.grid{display:grid;grid-template-columns:1fr;gap:8px}.row{padding:11px 12px;background:#111;border:1px solid #222;border-radius:10px}.row b{color:#f1c85e}.hint{margin-top:18px;padding-top:15px;border-top:1px solid #2b2416;font-size:13px;color:#999}@media(orientation:landscape){body{outline:8px solid #d8ad48;outline-offset:-8px}.status{background:#241d0d}}
+</style>
+</head>
+<body>
+<div class="box">
+<h1>OVERUNDER · ROTATION TEST</h1>
+<p>Otvori ovu stranicu u Chrome-u, napravi screenshot uspravno, zatim okreni telefon horizontalno i napravi drugi screenshot.</p>
+<div class="status" id="status">—</div>
+<div class="grid" id="data"></div>
+<div class="hint">Ako Chrome registruje landscape, oko cele stranice pojaviće se i zlatni okvir.</div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+function val(v){return v===undefined||v===null?'n/a':String(v)}
+function update(reason){
+ const so=screen.orientation||{};
+ const mm=window.matchMedia('(orientation: landscape)').matches;
+ const vv=window.visualViewport;
+ $('status').textContent=mm?'LANDSCAPE DETECTED':'PORTRAIT DETECTED';
+ const rows=[
+ ['event',reason],
+ ['innerWidth × innerHeight',innerWidth+' × '+innerHeight],
+ ['outerWidth × outerHeight',outerWidth+' × '+outerHeight],
+ ['screen.width × screen.height',screen.width+' × '+screen.height],
+ ['screen.availWidth × availHeight',screen.availWidth+' × '+screen.availHeight],
+ ['orientation media query',mm],
+ ['screen.orientation.type',val(so.type)],
+ ['screen.orientation.angle',val(so.angle)],
+ ['window.orientation',val(window.orientation)],
+ ['visualViewport',vv?Math.round(vv.width)+' × '+Math.round(vv.height):'n/a'],
+ ['devicePixelRatio',devicePixelRatio],
+ ['display-mode standalone',matchMedia('(display-mode: standalone)').matches],
+ ['navigator.standalone',val(navigator.standalone)],
+ ['userAgent',navigator.userAgent]
+ ];
+ $('data').innerHTML=rows.map(([k,v])=>'<div class="row"><b>'+k+':</b> '+v+'</div>').join('');
+}
+update('load');
+addEventListener('resize',()=>update('resize'));
+addEventListener('orientationchange',()=>setTimeout(()=>update('orientationchange'),150));
+if(screen.orientation&&screen.orientation.addEventListener)screen.orientation.addEventListener('change',()=>update('screen.orientation change'));
+if(window.visualViewport)visualViewport.addEventListener('resize',()=>update('visualViewport resize'));
+</script>
+</body>
+</html>
