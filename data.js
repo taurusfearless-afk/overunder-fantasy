@@ -24,8 +24,8 @@ window.OVERUNDER_DATA = {
     ...Array.from({length:8},(_,i)=>({id:`t${String(i+11).padStart(2,'0')}`,name:`TEAM ${String(i+11).padStart(2,'0')}`,owner:""}))
   ],
   league: {
-    rounds:[33,34,35,36,37,38],
-    participants:Array.from({length:10},(_,i)=>({teamId:`t${String(i+1).padStart(2,'0')}`,scores:{33:null,34:null,35:null,36:null,37:null,38:null}}))
+    rounds:[31,32,33,34,35,36,37,38],
+    participants:Array.from({length:10},(_,i)=>({teamId:`t${String(i+1).padStart(2,'0')}`,scores:{31:null,32:null,33:null,34:null,35:null,36:null,37:null,38:null}}))
   },
   cup: {
     winsNeeded:3,
@@ -35,13 +35,13 @@ window.OVERUNDER_DATA = {
     semis:[{id:"s1",teamA:{winnerOf:"q1"},teamB:{winnerOf:"q2"},winsA:0,winsB:0},{id:"s2",teamA:{winnerOf:"q3"},teamB:{winnerOf:"q4"},winsA:0,winsB:0}],
     final:[{id:"f1",teamA:{winnerOf:"s1"},teamB:{winnerOf:"s2"},winsA:0,winsB:0}]
   },
-  budget:Array.from({length:18},(_,i)=>({teamId:`t${String(i+1).padStart(2,'0')}`,participation:5000,league:0,paid:0})),
+  budget:Array.from({length:18},(_,i)=>({teamId:`t${String(i+1).padStart(2,'0')}`,participation:(i===1||i===7)?0:5000,league:0,paid:0})),
   doubleRounds:[{label:"Duplo kolo 1",roundA:1,roundB:2,entries:Array.from({length:18},(_,i)=>({teamId:`t${String(i+1).padStart(2,'0')}`,scoreA:0,scoreB:0}))}],
   highScores:[],
   rules:{
     participation:["Liga ima 18 učesnika.","Kotizacija za sezonu iznosi 5.000 RSD i obavezna je do Nove godine.","Svi članovi dobijaju majicu i jedno besplatno učešće za kviz Kvizna Čaršija (Žika časti)."],
     penalties:["Četvorica sa najmanje poena u regularnom kolu uplaćuju po 600 RSD.","U duplom kolu plaća petorica sa najmanje poena, po 700 RSD.","Na kraju plasmana: poslednji plaća 3.000 RSD, pretposlednji 2.000 RSD, treći unazad 1.000 RSD."],
-    leagueFinal:["Posebna završna liga počinje posle 32. kola.","Učestvuje poslednjih 10 ekipa.","Računaju se samo kola R33–R38."],
+    leagueFinal:["Posebna završna liga počinje od 31. kola.","Učestvuje poslednjih 10 ekipa.","Računaju se kola R31–R38, ukupno 8 kola."],
     cup:["Kup počinje približno oko 13. kola.","18 učesnika; 4 ekipe igraju preliminarnu rundu, a dva pobednika ulaze u glavni žreb od 16.","Svaki duel se igra na 3 pobede (maksimalno 5 kola)."],
     special:["Rus i Mijanović imaju besplatno učešće.","Mitski, Amer i Goran imaju po tri besplatna bona koji pokrivaju neuspešno kolo.","Žurka je planirana za 24.04.2027."]
   },
