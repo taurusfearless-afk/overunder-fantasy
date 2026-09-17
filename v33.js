@@ -7,6 +7,10 @@
       @media (hover:hover){.nav-card-v2,.season-dashboard,.card{transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease}.nav-card-v2:hover{transform:translateY(-3px);border-color:rgba(255,214,104,.55)!important;box-shadow:0 14px 34px rgba(0,0,0,.42),0 0 20px rgba(226,182,77,.08)}.nav-card-v2:hover .go{transform:translateX(4px);color:#ffe28a}.nav-card-v2 .go{transition:transform .22s ease,color .22s ease}}
       .route-home .hero-mark img{animation:ouHeroGlow 5s ease-in-out infinite alternate}@keyframes ouHeroGlow{from{filter:drop-shadow(0 8px 18px rgba(0,0,0,.30)) drop-shadow(0 0 7px rgba(226,182,77,.07))}to{filter:drop-shadow(0 8px 18px rgba(0,0,0,.30)) drop-shadow(0 0 15px rgba(226,182,77,.17))}}
       @media(prefers-reduced-motion:reduce){.route-home .hero-mark img{animation:none!important}}
+      .ou-rotate-hint{position:fixed;right:18px;bottom:max(20px,env(safe-area-inset-bottom));z-index:14;display:flex;align-items:center;gap:8px;padding:9px 12px;border:1px solid rgba(226,182,77,.55);border-radius:999px;background:rgba(8,8,8,.82);box-shadow:0 6px 24px rgba(0,0,0,.38),0 0 14px rgba(226,182,77,.10);color:#e6bd62;font:700 10px/1 Inter,sans-serif;letter-spacing:.12em;text-transform:uppercase;pointer-events:none;animation:ouRotatePulse 2.2s ease-in-out infinite}.ou-rotate-hint svg{width:22px;height:22px;display:block;filter:drop-shadow(0 0 5px rgba(226,182,77,.28))}@keyframes ouRotatePulse{0%,100%{opacity:.48;transform:translateY(0)}50%{opacity:1;transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,0,0,.38),0 0 22px rgba(226,182,77,.28)}}
+      @media (orientation:landscape){.ou-rotate-hint{display:none!important}}
+      @media (max-width:390px){.ou-rotate-hint{right:12px;bottom:max(14px,env(safe-area-inset-bottom));padding:8px 10px}.ou-rotate-hint span{display:none}}
+      .menu.open{padding-top:112px!important}.menu.open:before{content:'OVER UNDER';position:absolute;left:62px;top:47px;color:#f1c45e;font-family:'Bebas Neue',sans-serif;font-size:28px;line-height:1;letter-spacing:.16em;white-space:nowrap;text-shadow:0 0 14px rgba(226,182,77,.15)}.menu.open:after{content:'EUROLEAGUE FANTASY · 2026/27';position:absolute;left:63px;top:80px;color:rgba(255,255,255,.62);font-family:Inter,sans-serif;font-size:9px;font-weight:500;letter-spacing:.24em;white-space:nowrap}.menu.open~* .brand-centered{opacity:0!important}
       @media (orientation:landscape) and (max-height:600px){.container{width:min(100% - 28px,1180px)!important}.topbar,.nav{height:48px!important}.brand-centered.brand-right{height:34px!important}.brand-right img{height:27px!important;width:170px!important}.page-head{min-height:78px!important;padding-top:14px!important;padding-bottom:8px!important}.page-head h1{font-size:38px!important}.page-head p{margin-top:2px!important}.stats{grid-template-columns:repeat(4,1fr)!important;gap:8px!important}.route-budget .table-wrap,.route-double .table-wrap,.route-league .table-wrap{overflow-x:visible!important}.route-budget table,.route-double table{min-width:0!important;width:100%!important;font-size:10.5px!important}.route-budget th,.route-budget td,.route-double th,.route-double td{padding:8px 5px!important;white-space:nowrap!important}.route-budget td.team{min-width:0!important}.budget-owner{font-size:8.5px!important}.route-league .desktop-table{display:block!important}.route-league .mobile-list{display:none!important}.route-league table{font-size:10px!important;min-width:0!important;width:100%!important}.route-league th,.route-league td{padding:7px 3px!important}.footer{padding-bottom:18px!important}}
     `;document.head.appendChild(style);
   }
@@ -25,6 +29,12 @@
       const stats=document.querySelectorAll('.stats .stat b');if(stats[1])stats[1].textContent='8';if(stats[2])stats[2].textContent='R31';if(stats[3])stats[3].textContent='R38';
     }
   }
+  function rotationHint(shell){
+    const shouldShow=shell.classList.contains('route-budget')||shell.classList.contains('route-double');
+    let hint=document.querySelector('.ou-rotate-hint');
+    if(!shouldShow){hint?.remove();return;}
+    if(!hint){hint=document.createElement('div');hint.className='ou-rotate-hint';hint.setAttribute('aria-hidden','true');hint.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="4" width="10" height="16" rx="2"/><path d="M4.5 8.5A8.5 8.5 0 0 1 8 4.8"/><path d="m4.3 5 .2 3.5L8 8.2"/><path d="M19.5 15.5A8.5 8.5 0 0 1 16 19.2"/><path d="m19.7 19-.2-3.5-3.5.3"/></svg><span>Okreni ekran</span>';document.body.appendChild(hint);}
+  }
   function decorate(){
     installEnhancements();
     const shell=document.querySelector('.app-shell');if(!shell)return;
@@ -32,7 +42,7 @@
     if(brand){brand.classList.add('brand-right');const img=brand.querySelector('img');if(img){img.src='assets/logo-header-v2.png.png';img.alt='Over Under';}const text=brand.querySelector('.brand-text');if(text)text.style.display='none';}
     if(shell.classList.contains('route-home')){const heroImg=document.querySelector('.hero-mark img');if(heroImg){heroImg.src='assets/logo-main-transparent.png.png';heroImg.alt='Over Under EuroLeague Fantasy 2026/27';}}
     else{const head=document.querySelector('.page-head');if(head&&!head.querySelector('.page-watermark'))head.insertAdjacentHTML('beforeend','<img class="page-watermark" src="assets/logo-main-transparent.png.png" alt="">');}
-    correctLeagueLabels(shell);hideTeamNamesOutsideBudget(shell);
+    correctLeagueLabels(shell);hideTeamNamesOutsideBudget(shell);rotationHint(shell);
     if(shell.classList.contains('route-budget')) document.querySelectorAll('tbody td.team').forEach(td=>{if(td.dataset.ownerAdded)return;const name=td.textContent.trim(),t=teamByName(name);td.dataset.ownerAdded='1';td.innerHTML=`<span class="budget-team-name">${name}</span>${t?.owner?`<span class="budget-owner">${t.owner}</span>`:''}`;});
     if(shell.classList.contains('route-rules')){const joke=document.querySelector('.rules-joke'),footer=document.querySelector('.footer');if(joke&&footer&&!footer.querySelector('.rules-joke')){joke.remove();footer.appendChild(joke)}}
   }
