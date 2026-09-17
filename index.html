@@ -11,35 +11,42 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
-  <title>OverUnder EuroLeague Fantasy 2026/27 · Premium V6.2</title>
+  <title>OverUnder EuroLeague Fantasy 2026/27 · Premium V6.3</title>
   <link rel="manifest" href="manifest.webmanifest?v=5.7.0" />
-  <link rel="icon" href="assets/icon-192.png.png?v=6.2.0" type="image/png" sizes="192x192" />
-  <link rel="apple-touch-icon" href="assets/icon-192.png.png?v=6.2.0" />
+  <link rel="icon" href="assets/icon-192.png.png?v=6.3.0" type="image/png" sizes="192x192" />
+  <link rel="apple-touch-icon" href="assets/icon-192.png.png?v=6.3.0" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=6.2.0" />
-  <link rel="stylesheet" href="premium-v3.css?v=6.2.0" />
+  <link rel="stylesheet" href="style.css?v=6.3.0" />
+  <link rel="stylesheet" href="premium-v3.css?v=6.3.0" />
   <style>
     .ou-rotate-hint{display:none!important}
-    #ouRotateV60{position:fixed;right:18px;bottom:max(22px,env(safe-area-inset-bottom));z-index:9999;display:none;align-items:center;justify-content:center;width:88px;height:72px;padding:0;border:2px solid rgba(235,194,92,.78);border-radius:24px;background:rgba(7,7,7,.92);color:#f2c861;box-shadow:0 8px 30px rgba(0,0,0,.55),0 0 24px rgba(226,182,77,.20);pointer-events:none;animation:ouV60Pulse 1.9s ease-in-out infinite}
-    #ouRotateV60 .phone{position:relative;width:54px;height:32px;border:4px solid currentColor;border-radius:8px;box-sizing:border-box;filter:drop-shadow(0 0 7px rgba(242,200,97,.36))}
-    #ouRotateV60 .phone:before{content:'';position:absolute;right:3px;top:50%;width:3px;height:3px;border-radius:50%;background:currentColor;transform:translateY(-50%)}
-    #ouRotateV60 .phone:after{content:'↔';position:absolute;left:50%;top:50%;transform:translate(-50%,-54%);font:700 22px/1 Arial,sans-serif;color:currentColor}
+    #ouRotateV60{position:fixed;right:16px;bottom:max(20px,env(safe-area-inset-bottom));z-index:9999;display:none;align-items:center;justify-content:center;width:72px;height:62px;padding:0;border:1.5px solid rgba(235,194,92,.72);border-radius:20px;background:rgba(7,7,7,.90);color:#f2c861;box-shadow:0 7px 25px rgba(0,0,0,.50),0 0 18px rgba(226,182,77,.18);pointer-events:none;animation:ouV60Pulse 2s ease-in-out infinite}
+    #ouRotateV60 svg{width:52px;height:42px;display:block;overflow:visible;filter:drop-shadow(0 0 5px rgba(242,200,97,.30))}
     body:has(.route-budget) #ouRotateV60,body:has(.route-double) #ouRotateV60{display:flex}
     @media(orientation:landscape){#ouRotateV60{display:none!important}}
-    @media(max-width:390px){#ouRotateV60{right:12px;bottom:max(16px,env(safe-area-inset-bottom));width:82px;height:68px}#ouRotateV60 .phone{width:52px;height:31px}}
-    @keyframes ouV60Pulse{0%,100%{opacity:.58;transform:scale(.96)}50%{opacity:1;transform:scale(1.07);box-shadow:0 8px 30px rgba(0,0,0,.55),0 0 34px rgba(226,182,77,.38)}}
+    @media(max-width:390px){#ouRotateV60{right:12px;bottom:max(16px,env(safe-area-inset-bottom));width:68px;height:58px}#ouRotateV60 svg{width:49px;height:39px}}
+    @keyframes ouV60Pulse{0%,100%{opacity:.62;transform:scale(.97)}50%{opacity:1;transform:scale(1.045);box-shadow:0 7px 25px rgba(0,0,0,.50),0 0 27px rgba(226,182,77,.34)}}
   </style>
 </head>
 <body>
   <div id="app"></div>
-  <div id="ouRotateV60" aria-hidden="true"><span class="phone"></span></div>
-  <script src="data.js?v=6.2.0"></script>
-  <script src="script.js?v=6.2.0"></script>
+  <div id="ouRotateV60" aria-hidden="true">
+    <svg viewBox="0 0 64 50" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="17" y="14" width="30" height="21" rx="4.5"/>
+      <circle cx="43" cy="24.5" r="1.2" fill="currentColor" stroke="none"/>
+      <path d="M13 19C14.8 11.8 21.4 7 29 7"/>
+      <path d="M13 19L9 14.5M13 19L17.8 15.6"/>
+      <path d="M51 31C49.2 38.2 42.6 43 35 43"/>
+      <path d="M51 31L55 35.5M51 31L46.2 34.4"/>
+    </svg>
+  </div>
+  <script src="data.js?v=6.3.0"></script>
+  <script src="script.js?v=6.3.0"></script>
   <script src="v33.js?v=5.9.1"></script>
   <script>
-    if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=6.2.0',{scope:'./'}).catch(()=>{}));}
+    if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=6.3.0',{scope:'./'}).catch(()=>{}));}
     window.addEventListener('load',()=>{
       if(window.matchMedia('(display-mode: standalone)').matches && screen.orientation){
         try{screen.orientation.unlock();}catch(e){}
