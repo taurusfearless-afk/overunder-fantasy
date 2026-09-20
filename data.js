@@ -21,7 +21,9 @@ window.OVERUNDER_DATA = {
     {id:"t08",name:"Pick_and_pop",owner:"Dragan Jovanović"},
     {id:"t09",name:"Bench Boost",owner:"Nemanja Stokić"},
     {id:"t10",name:"Pallacanestro",owner:"Nikola Marković"},
-    ...Array.from({length:8},(_,i)=>({id:`t${String(i+11).padStart(2,'0')}`,name:`TEAM ${String(i+11).padStart(2,'0')}`,owner:""}))
+    {id:"t11",name:"Proleter Četereže",owner:"Marko Jović"},
+    {id:"t12",name:"Mišari Junajted",owner:"Igor Radosavljević"},
+    ...Array.from({length:6},(_,i)=>({id:`t${String(i+13).padStart(2,'0')}`,name:`TEAM ${String(i+13).padStart(2,'0')}`,owner:""}))
   ],
   league: {
     rounds:[31,32,33,34,35,36,37,38],
@@ -35,7 +37,7 @@ window.OVERUNDER_DATA = {
     semis:[{id:"s1",teamA:{winnerOf:"q1"},teamB:{winnerOf:"q2"},winsA:0,winsB:0},{id:"s2",teamA:{winnerOf:"q3"},teamB:{winnerOf:"q4"},winsA:0,winsB:0}],
     final:[{id:"f1",teamA:{winnerOf:"s1"},teamB:{winnerOf:"s2"},winsA:0,winsB:0}]
   },
-  budget:Array.from({length:18},(_,i)=>({teamId:`t${String(i+1).padStart(2,'0')}`,participation:(i===1||i===7)?0:5000,league:0,paid:0})),
+  budget:Array.from({length:18},(_,i)=>({teamId:`t${String(i+1).padStart(2,'0')}`,participation:(i===1||i===7)?0:5000,league:0,paid:(i===2||i===10)?5000:0})),
   doubleRounds:[{label:"Duplo kolo 1",roundA:1,roundB:2,entries:Array.from({length:18},(_,i)=>({teamId:`t${String(i+1).padStart(2,'0')}`,scoreA:0,scoreB:0}))}],
   highScores:[],
   rules:{
