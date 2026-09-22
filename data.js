@@ -11,7 +11,7 @@ window.OVERUNDER_DATA = {
     currency: "RSD"
   },
   teams: [
-    {id:"t01",name:"KK N'mora Batler Baba d'Izundi",owner:"Aleksandar Milić"},
+    {id:"t01",name:"MEKA_RUKA",owner:"Aleksandar Milić"},
     {id:"t02",name:"Taurus Fearless",owner:"Miloš Mijanović"},
     {id:"t03",name:"Baćica Wilds",owner:"Miloš Jovanović"},
     {id:"t04",name:"Тромеђа КНН",owner:"Stefan Dobrota"},
@@ -23,7 +23,12 @@ window.OVERUNDER_DATA = {
     {id:"t10",name:"Pallacanestro",owner:"Nikola Marković"},
     {id:"t11",name:"Proleter Četereže",owner:"Marko Jović"},
     {id:"t12",name:"Mišari Junajted",owner:"Igor Radosavljević"},
-    ...Array.from({length:6},(_,i)=>({id:`t${String(i+13).padStart(2,'0')}`,name:`TEAM ${String(i+13).padStart(2,'0')}`,owner:""}))
+    {id:"t13",name:"negro_bambino",owner:"Strahinja Starinac"},
+    {id:"t14",name:"Ckaljini Tigrovi",owner:"Jovan Jovanović"},
+    {id:"t15",name:"Bombonjerosi",owner:"Marko Ilić"},
+    {id:"t16",name:"F G F B",owner:"Filip Ristić"},
+    {id:"t17",name:"burebaruta",owner:"Goran Milić"},
+    {id:"t18",name:"Kraljevo city",owner:"Trajko Bogićević"}
   ],
   league: {
     rounds:[31,32,33,34,35,36,37,38],
