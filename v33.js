@@ -15,7 +15,7 @@
     `;document.head.appendChild(style);
   }
   function hideTeamNamesOutsideBudget(shell){
-    if(shell.classList.contains('route-budget')) return;
+    if(shell.classList.contains('route-budget')||shell.classList.contains('route-record')) return;
     (window.OVERUNDER_DATA?.teams||[]).forEach(t=>{
       if(!t?.name || /^TEAM \d+$/i.test(t.name)) return;
       const replacement=genericName(t.id);
