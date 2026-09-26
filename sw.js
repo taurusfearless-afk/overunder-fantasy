@@ -1,5 +1,5 @@
-const CACHE='overunder-v63';
-const CORE=['./','./index.html?v=6.1.0','./style.css?v=6.1.0','./premium-v3.css?v=6.1.0','./data.js?v=6.7.2','./script.js?v=6.7.1','./v33.js?v=5.9.1','./manifest.webmanifest?v=5.7.0','./assets/icon-192.png.png','./assets/icon-512.png.png','./assets/logo-main-transparent.png.png','./assets/logo-header-v2.png.png','./assets/arena-bg.png.png'];
+const CACHE='overunder-v64';
+const CORE=['./','./index.html?v=6.1.0','./style.css?v=6.1.0','./premium-v3.css?v=6.1.0','./data.js?v=6.7.2','./script.js?v=6.7.1','./v33.js?v=5.9.2','./manifest.webmanifest?v=5.7.0','./assets/icon-192.png.png','./assets/icon-512.png.png','./assets/logo-main-transparent.png.png','./assets/logo-header-v2.png.png','./assets/arena-bg.png.png'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',event=>{if(event.request.method!=='GET')return;event.respondWith(fetch(event.request).then(response=>{const copy=response.clone();caches.open(CACHE).then(cache=>cache.put(event.request,copy));return response;}).catch(()=>caches.match(event.request).then(r=>r||caches.match('./index.html?v=6.1.0')||caches.match('./index.html'))));});
