@@ -43,7 +43,26 @@ window.OVERUNDER_DATA = {
     final:[{id:"f1",teamA:{winnerOf:"s1"},teamB:{winnerOf:"s2"},winsA:0,winsB:0}]
   },
   budget:Array.from({length:18},(_,i)=>({teamId:`t${String(i+1).padStart(2,'0')}`,participation:(i===1||i===7)?0:5000,league:[1,4,6,11].includes(i)?600:0,paid:(i===2||i===4||i===10)?5000:0})),
-  doubleRounds:[{label:"Duplo kolo 1",roundA:1,roundB:2,entries:Array.from({length:18},(_,i)=>({teamId:`t${String(i+1).padStart(2,'0')}`,scoreA:0,scoreB:0}))}],
+  doubleRounds:[{label:"Duplo kolo 1",roundA:2,roundB:3,entries:[
+    {teamId:"t01",scoreA:159.3,scoreB:null},
+    {teamId:"t02",scoreA:123.1,scoreB:null},
+    {teamId:"t03",scoreA:116.1,scoreB:null},
+    {teamId:"t04",scoreA:177.7,scoreB:null},
+    {teamId:"t05",scoreA:116.05,scoreB:null},
+    {teamId:"t06",scoreA:139.55,scoreB:null},
+    {teamId:"t07",scoreA:124.5,scoreB:null},
+    {teamId:"t08",scoreA:175.8,scoreB:null},
+    {teamId:"t09",scoreA:191.55,scoreB:null},
+    {teamId:"t10",scoreA:102.8,scoreB:null},
+    {teamId:"t11",scoreA:163.1,scoreB:null},
+    {teamId:"t12",scoreA:126,scoreB:null},
+    {teamId:"t13",scoreA:126.95,scoreB:null},
+    {teamId:"t14",scoreA:165.8,scoreB:null},
+    {teamId:"t15",scoreA:161.65,scoreB:null},
+    {teamId:"t16",scoreA:170.65,scoreB:null},
+    {teamId:"t17",scoreA:157.35,scoreB:null},
+    {teamId:"t18",scoreA:147,scoreB:null}
+  ]}],
   highScores:[{teamId:"t08",round:1,points:206.5}],
   rules:{
     participation:["Liga ima 18 učesnika.","Kotizacija za sezonu iznosi 5.000 RSD i obavezna je do Nove godine.","Svi članovi dobijaju majicu i jedno besplatno učešće za kviz Kvizna Čaršija (Žika časti)."],
