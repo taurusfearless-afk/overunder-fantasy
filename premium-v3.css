@@ -75,3 +75,12 @@
  .draw-machine{width:184px!important;height:184px!important}
  .draw-machine .draw-ball.basketball{width:76px!important;height:76px!important}
 }
+
+/* CUP DRAW V6 · generated premium OU basketball */
+.draw-ball.premium-asset{width:112px!important;height:112px!important;border:0!important;background:none!important;overflow:visible!important;box-shadow:none!important;display:grid;place-items:center}
+.draw-ball.premium-asset:before,.draw-ball.premium-asset:after{display:none!important}
+.draw-ball.premium-asset img{width:100%;height:100%;display:block;object-fit:cover;border-radius:50%;filter:drop-shadow(0 10px 16px rgba(0,0,0,.75)) drop-shadow(0 0 14px rgba(244,194,70,.38));transform:scale(1.06)}
+.draw-machine.spinning .draw-ball.premium-asset{animation:premiumAssetFly .62s cubic-bezier(.36,.07,.19,.97) infinite alternate!important}
+.draw-machine.spinning .draw-ball.premium-asset img{filter:drop-shadow(0 12px 20px rgba(0,0,0,.8)) drop-shadow(0 0 24px rgba(255,204,77,.58));animation:premiumAssetTurn 1.1s linear infinite}
+@keyframes premiumAssetFly{0%{transform:translate(-34px,-27px) scale(.9)}33%{transform:translate(35px,-17px) scale(1.08)}66%{transform:translate(28px,33px) scale(.96)}100%{transform:translate(-31px,30px) scale(1.04)}}@keyframes premiumAssetTurn{to{transform:scale(1.06) rotate(360deg)}}
+@media(max-width:640px){.draw-ball.premium-asset{width:104px!important;height:104px!important}}
