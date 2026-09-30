@@ -11,3 +11,14 @@
 @media(orientation:landscape){.container{width:min(100% - 18px,1180px)!important}.route-budget .table-wrap,.route-double .table-wrap,.route-league .desktop-table{display:block!important}.route-league .mobile-list{display:none!important}}
 @media(orientation:landscape) and (max-height:640px){.topbar,.nav{height:46px!important}.hamb{width:34px!important;height:34px!important;padding:7px!important}.brand-centered.brand-right{right:-11px!important;height:32px!important;width:145px!important}.brand-right img{width:138px!important;height:29px!important}.page-head{padding:14px 0 10px!important;min-height:0!important}.page-head h1{font-size:38px!important}.page-head p{font-size:11px!important}.stats{grid-template-columns:repeat(4,1fr)!important;gap:7px!important;margin-bottom:10px!important}.stat{padding:8px 10px!important}.stat b{font-size:24px!important}.stat small{font-size:9px!important}.route-budget table,.route-double table{min-width:690px!important;font-size:10px!important}.route-league table{min-width:760px!important;font-size:9px!important}.route-budget th,.route-budget td,.route-double th,.route-double td,.route-league th,.route-league td{padding:7px 6px!important}.route-league .score-pill{min-width:34px!important;padding:4px!important}.budget-owner{font-size:8px!important}.menu{width:min(52vw,320px)!important;padding-top:68px!important}.menu:before{top:18px!important}.menu:after{top:47px!important}}
 @media(prefers-reduced-motion:reduce){.route-home .hero-mark img{animation:none!important}.menu,.menu a,.hamb,.hamb span{transition:none!important}}
+
+/* Mobile performance pass */
+@media(max-width:900px){
+  .bg{filter:none!important;transform:none!important}
+  .bg::after{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+  .topbar,.card,.table-wrap,.match,.season-dashboard,.hamb{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+  .route-home .hero-mark img{animation:none!important;will-change:auto!important;filter:none!important}
+  .hero-v2:before{animation:none!important}
+  .ou-rotate-hint{animation:none!important}
+  .card,.table-wrap,.match,.season-dashboard,.nav-card-v2{box-shadow:0 8px 22px rgba(0,0,0,.24)!important}
+}
