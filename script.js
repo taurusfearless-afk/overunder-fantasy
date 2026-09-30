@@ -79,3 +79,34 @@ function doublePage(){const d=DATA.doubleRounds[DATA.doubleRounds.length-1],entr
 function record(){const history=[...DATA.highScores].sort((a,b)=>b.points-a.points),rec=history[0]||null;return shell(`<section class="page-head"><h1>NAJVIŠE POENA</h1><p>Rekord sezone ${DATA.meta.season}</p></section><div class="card record-hero"><div class="eyebrow">SEZONSKI REKORD</div><div class="pts">${rec?rec.points:'000'}</div><h2>${rec?nameOf(rec.teamId):'TEAM 01'}</h2><p>${rec?`KOLO ${rec.round}`:'KOLO 00'}</p></div><div class="card history"><h3 style="font-family:'Bebas Neue';font-size:30px;color:var(--gold2);margin-top:0">ISTORIJA REKORDA</h3>${history.length?`<div class="table-wrap"><table><thead><tr><th>#</th><th>TIM</th><th>KOLO</th><th>POENI</th></tr></thead><tbody>${history.map((h,i)=>`<tr><td>${i+1}</td><td class="team">${nameOf(h.teamId)}</td><td>${h.round}</td><td><b>${h.points}</b></td></tr>`).join('')}</tbody></table></div>`:`<div class="notice">Još nema unetih rezultata. Rekord će se pojaviti automatski čim dodaš prvi rezultat.</div>`}</div>`,'record');}
 function rules(){const blocks=[['UČESTVOVANJE',DATA.rules.participation],['PENALI',DATA.rules.penalties],['LIGA',DATA.rules.leagueFinal],['KUP',DATA.rules.cup],['POSEBNE NAPOMENE',DATA.rules.special]];return shell(`<section class="page-head"><h1>PRAVILA & NAGRADE</h1><p>Over Under Fantasy Liga · ${DATA.meta.season}</p></section><div class="grid rules-grid">${blocks.map(([t,arr])=>`<section class="card"><h3>${t}</h3><ul>${arr.map(x=>`<li>${x}</li>`).join('')}</ul></section>`).join('')}<section class="card"><h3>NAGRADE</h3><div class="prizes">${DATA.prizes.map((p,i)=>`<div class="prize"><div class="medal">${i+1}</div><div><b>${p.title}</b><div>${p.text}</div></div></div>`).join('')}</div></section></div><div class="notice">Napomena: žurka je planirana za <b>24.04.2027.</b> Datum nije konačan i može doći do pomeranja u zavisnosti od dogovora i mogućnosti članova lige.</div><div class="rules-joke">${DATA.footerJoke||''}</div>`,'rules');}
 function render(){const r=route(),fn={home,league,cup,double:doublePage,budget,record,rules}[r]||home;document.getElementById('app').innerHTML=fn();initNav();window.scrollTo(0,0)}window.addEventListener('hashchange',render);render();
+
+/* LIVE VIEWERS · Supabase Realtime Presence */
+(function(){
+  const URL='https://tlvgnjqoqkfkayhkjahd.supabase.co';
+  const KEY='sb_publishable_lYb4XZhqFi_7OJ14zcBt9w_8aoxD1LU';
+  function setLive(n,status){
+    const el=document.getElementById('ouLiveViewers'); if(!el)return;
+    const num=el.querySelector('.ou-live-num');
+    if(num) num.textContent=String(Math.max(0,n||0));
+    el.classList.toggle('is-connected',status==='connected');
+  }
+  async function start(){
+    if(!window.supabase||!window.supabase.createClient)return;
+    const client=window.supabase.createClient(URL,KEY,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}});
+    const id=(crypto&&crypto.randomUUID)?crypto.randomUUID():Math.random().toString(36).slice(2)+Date.now();
+    const channel=client.channel('overunder-live-site',{config:{presence:{key:id}}});
+    const sync=()=>{
+      const state=channel.presenceState();
+      const count=Object.keys(state||{}).length;
+      setLive(count,'connected');
+    };
+    channel.on('presence',{event:'sync'},sync)
+      .on('presence',{event:'join'},sync)
+      .on('presence',{event:'leave'},sync)
+      .subscribe(async status=>{
+        if(status==='SUBSCRIBED'){await channel.track({online_at:new Date().toISOString()});sync();}
+      });
+    window.addEventListener('pagehide',()=>{try{channel.untrack();}catch(e){}},{once:true});
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
+})();
