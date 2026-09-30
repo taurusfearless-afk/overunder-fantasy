@@ -15,7 +15,8 @@
     `;document.head.appendChild(style);
   }
   function hideTeamNamesOutsideBudget(shell){
-    if(shell.classList.contains('route-budget')||shell.classList.contains('route-record')||shell.classList.contains('route-double')) return;
+    if(shell.classList.contains('route-double')){document.querySelectorAll('main td.team').forEach(el=>{const m=el.textContent.trim().match(/^TEAM\s*(\d+)$/i);if(m){const id=`t${String(Number(m[1])).padStart(2,'0')}`;const real=(window.OVERUNDER_DATA?.teams||[]).find(t=>t.id===id)?.name;if(real)el.textContent=real;}});return;}
+    if(shell.classList.contains('route-budget')||shell.classList.contains('route-record')) return;
     (window.OVERUNDER_DATA?.teams||[]).forEach(t=>{
       if(!t?.name || /^TEAM \d+$/i.test(t.name)) return;
       const replacement=genericName(t.id);
