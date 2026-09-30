@@ -1,8 +1,8 @@
 const RAW = window.OVERUNDER_DATA;
 // One-time refresh: discard stale admin preview data so live GitHub data is shown.
-if (!localStorage.getItem('ou_live_data_refresh_20260925')) {
+if (!localStorage.getItem('ou_live_data_refresh_20261001')) {
   localStorage.removeItem('overunder_data_override');
-  localStorage.setItem('ou_live_data_refresh_20260925','1');
+  localStorage.setItem('ou_live_data_refresh_20261001','1');
 }
 let DATA;
 try {
