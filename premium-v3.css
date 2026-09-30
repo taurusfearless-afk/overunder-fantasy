@@ -103,3 +103,6 @@
 #ouLiveViewers .ou-live-word{color:#f3c654}.ou-live-num{font-size:12px;color:#fff}
 @keyframes ouLivePulse{50%{opacity:.45;transform:scale(.8)}}
 @media(max-width:640px){#ouLiveViewers{top:max(8px,env(safe-area-inset-top));right:8px;height:29px;padding:0 9px;gap:6px;font-size:9.5px;backdrop-filter:none}}
+
+/* LIVE VIEWERS V2 · centered so header logo remains clear */
+#ouLiveViewers{left:50%!important;right:auto!important;transform:translateX(-50%)}
