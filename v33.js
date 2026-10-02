@@ -47,6 +47,13 @@
     if(shell.classList.contains('route-budget')) document.querySelectorAll('tbody td.team').forEach(td=>{if(td.dataset.ownerAdded)return;const name=td.textContent.trim(),t=teamByName(name);td.dataset.ownerAdded='1';td.innerHTML=`<span class="budget-team-name">${name}</span>${t?.owner?`<span class="budget-owner">${t.owner}</span>`:''}`;});
     if(shell.classList.contains('route-rules')){const joke=document.querySelector('.rules-joke'),footer=document.querySelector('.footer');if(joke&&footer&&!footer.querySelector('.rules-joke')){joke.remove();footer.appendChild(joke)}}
   }
+  function forceBudgetPayment(){
+    try{
+      const b=(window.DATA?.budget||[]).find(x=>x.teamId==='t13');
+      if(b&&Number(b.paid)!==5000){b.paid=5000;if(typeof window.render==='function')window.render();}
+    }catch(e){}
+  }
+  forceBudgetPayment();
   const obs=new MutationObserver(()=>requestAnimationFrame(decorate));obs.observe(document.getElementById('app'),{childList:true,subtree:true});
   addEventListener('hashchange',()=>setTimeout(decorate,0));addEventListener('DOMContentLoaded',()=>setTimeout(decorate,0));setTimeout(decorate,50);
 })();
