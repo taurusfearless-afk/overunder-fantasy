@@ -44,6 +44,7 @@
     if(shell.classList.contains('route-home')){const heroImg=document.querySelector('.hero-mark img');if(heroImg){heroImg.src='assets/logo-main-transparent.png.png';heroImg.alt='Over Under EuroLeague Fantasy 2026/27';}}
     else{const head=document.querySelector('.page-head');if(head&&!head.querySelector('.page-watermark'))head.insertAdjacentHTML('beforeend','<img class="page-watermark" src="assets/logo-main-transparent.png.png" alt="">');}
     correctLeagueLabels(shell);hideTeamNamesOutsideBudget(shell);rotationHint(shell);
+    if(shell.classList.contains('route-double')) document.querySelectorAll('tbody tr').forEach((tr,i)=>{const rank=tr.querySelector('td.rank');if(rank)rank.textContent=String(14+i);});
     if(shell.classList.contains('route-budget')) document.querySelectorAll('tbody td.team').forEach(td=>{if(td.dataset.ownerAdded)return;const name=td.textContent.trim(),t=teamByName(name);td.dataset.ownerAdded='1';td.innerHTML=`<span class="budget-team-name">${name}</span>${t?.owner?`<span class="budget-owner">${t.owner}</span>`:''}`;});
     if(shell.classList.contains('route-rules')){const joke=document.querySelector('.rules-joke'),footer=document.querySelector('.footer');if(joke&&footer&&!footer.querySelector('.rules-joke')){joke.remove();footer.appendChild(joke)}}
   }
