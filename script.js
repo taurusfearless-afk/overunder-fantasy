@@ -8,6 +8,11 @@ let DATA;
 try {
   const local = localStorage.getItem('overunder_data_override');
   DATA = local ? JSON.parse(local) : structuredClone(RAW);
+  // Published league finances, double-round results and records are authoritative.
+  // An old local admin preview must never overwrite these official values.
+  DATA.budget = structuredClone(RAW.budget);
+  DATA.doubleRounds = structuredClone(RAW.doubleRounds);
+  DATA.highScores = structuredClone(RAW.highScores);
 } catch(e) { DATA = structuredClone(RAW); }
 const $ = s => document.querySelector(s);
 const teamMap = () => Object.fromEntries(DATA.teams.map(t=>[t.id,t]));
