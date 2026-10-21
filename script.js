@@ -102,7 +102,15 @@ function hall(){
   <section class="hof-section" id="hall-archive"><div class="hof-section-heading"><span class="hof-section-icon">▤</span><div><h2>ARHIVA SEZONA</h2><p>Pregled svih zabeleženih osvajača</p></div></div><div class="hof-archive">${seasons.map(s=>`<div class="hof-season"><h3>${s}</h3>${[['Liga',h.league],['Kup',h.cup],['Liga 31',h.league31]].map(([t,a])=>{const x=a.find(z=>z.season===s);return x?`<div><span>${t}</span><b>${x.winner}</b></div>`:''}).join('')}</div>`).join('')}</div></section><p class="hof-footnote">Kuća slavnih se dopunjava novim podacima i završenim sezonama.</p>`,'hall');
 }
 document.addEventListener('click',function(event){const link=event.target.closest('[data-hof-target]');if(!link)return;event.preventDefault();const target=document.getElementById(link.dataset.hofTarget);if(target)target.scrollIntoView({behavior:'smooth',block:'start'});});
-function render(){const r=route(),fn={home,league,cup,double:doublePage,budget,record,hall,rules}[r]||home;document.getElementById('app').innerHTML=fn();initNav();window.scrollTo(0,0)}window.addEventListener('hashchange',render);render();
+function render(){const r=route(),fn={home,league,cup,double:doublePage,budget,record,hall,rules}[r]||home;document.getElementById('app').innerHTML=fn();initNav();window.scrollTo(0,0)}document.getElementById('app').addEventListener('click',function(event){
+  const link=event.target.closest('[data-hof-target]');
+  if(!link)return;
+  event.preventDefault();
+  const id=link.getAttribute('data-hof-target');
+  const target=document.getElementById(id);
+  if(target)target.scrollIntoView({behavior:'smooth',block:'start'});
+});
+window.addEventListener('hashchange',render);render();
 
 /* LIVE VIEWERS · Supabase Realtime Presence */
 (function(){
