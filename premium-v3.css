@@ -106,3 +106,8 @@
 
 /* LIVE VIEWERS V2 · centered so header logo remains clear */
 #ouLiveViewers{left:50%!important;right:auto!important;transform:translateX(-50%)}
+
+/* Stable icon rendering for newly added navigation cards */
+.nav-card-v2[href="#/hall"] .nav-icon:before,.nav-card-v2[href="#/rules"] .nav-icon:before{content:none!important;display:none!important}
+.nav-card-v2[href="#/hall"] .nav-icon,.nav-card-v2[href="#/rules"] .nav-icon{font-size:initial!important}
+.nav-card-v2 .nav-icon .ou-card-svg{display:block!important;width:29px!important;height:29px!important;flex:none;color:#e8c475;stroke:#e8c475}
