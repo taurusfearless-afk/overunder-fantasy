@@ -91,7 +91,7 @@ function doublePage(){
  const fmtScore=x=>x==null?'–':Number(x).toFixed(2).replace(/\.00$/,'');
  const rows=entries.map((e,i)=>{
   const rank=n-6+i, safe=rank<=n-5;
-  return `<tr class="${safe?'ou-safe-row':'ou-penalty-row'} ${rank===n-5?'ou-first-penalty':''}"><td class="rank">${rank}</td><td class="team">${nameOf(e.teamId)}</td><td>${fmtScore(e.scoreA)}</td><td>${fmtScore(e.scoreB)}</td><td><b>${pending?'–':e.total.toFixed(2)}</b></td><td>${safe?'—':pending?'NA ČEKANJU':fmt(DATA.meta.doublePenalty)+' RSD'}</td></tr>`;
+  return `<tr class="${safe?'ou-safe-row':'ou-penalty-row'} ${rank===n-4?'ou-first-penalty':''}"><td class="rank">${rank}</td><td class="team">${nameOf(e.teamId)}</td><td>${fmtScore(e.scoreA)}</td><td>${fmtScore(e.scoreB)}</td><td><b>${pending?'–':e.total.toFixed(2)}</b></td><td>${safe?'—':pending?'NA ČEKANJU':fmt(DATA.meta.doublePenalty)+' RSD'}</td></tr>`;
  }).join('');
  return shell(`<style>
  .route-double .ou-safe-row{opacity:.62;background:rgba(115,115,115,.075)}
