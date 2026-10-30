@@ -88,7 +88,7 @@ function doublePage(){
  const ranked=d.entries.map(e=>({...e,total:(Number(e.scoreA)||0)+(Number(e.scoreB)||0)})).sort((a,b)=>b.total-a.total);
  const entries=ranked.slice(-7);
  const n=ranked.length;
- const fmtScore=x=>x==null?'–':Number(x).toFixed(2).replace(/\\.00$/,'');
+ const fmtScore=x=>x==null?'–':Number(x).toFixed(2).replace(/\.00$/,'');
  const rows=entries.map((e,i)=>{
   const rank=n-6+i, safe=rank<=n-5;
   return `<tr class="${safe?'ou-safe-row':'ou-penalty-row'} ${rank===n-5?'ou-first-penalty':''}"><td class="rank">${rank}</td><td class="team">${nameOf(e.teamId)}</td><td>${fmtScore(e.scoreA)}</td><td>${fmtScore(e.scoreB)}</td><td><b>${pending?'–':e.total.toFixed(2)}</b></td><td>${safe?'—':pending?'NA ČEKANJU':fmt(DATA.meta.doublePenalty)+' RSD'}</td></tr>`;
