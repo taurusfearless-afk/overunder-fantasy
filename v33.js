@@ -23,7 +23,7 @@
     `;document.head.appendChild(style);
   }
   function hideTeamNamesOutsideBudget(shell){
-    if(shell.classList.contains('route-double')){document.querySelectorAll('main td.team').forEach(el=>{if(el.dataset.ouPlate)return;const raw=el.textContent.trim();const m=raw.match(/^TEAM\s*(\d+)$/i);let name=raw;if(m){const id=`t${String(Number(m[1])).padStart(2,'0')}`;name=(window.OVERUNDER_DATA?.teams||[]).find(t=>t.id===id)?.name||raw;}el.dataset.ouPlate='1';el.innerHTML=`<div class="ou-team-plate"><span class="ou-team-mark">${initials(name)}</span><span class="ou-team-copy"><span class="ou-team-name">${name}</span><span class="ou-team-meta">OVERUNDER · 2026/27</span></span></div>`;});return;}
+    if(shell.classList.contains('route-double')){document.querySelectorAll('main td.team').forEach(el=>{if(el.dataset.ouPlate)return;const raw=el.textContent.trim();const m=raw.match(/^TEAM\s*(\d+)$/i);let name=raw;if(m){const id=`t${String(Number(m[1])).padStart(2,'0')}`;name=(window.OVERUNDER_DATA?.teams||[]).find(t=>t.id===id)?.name||raw;}el.dataset.ouPlate='1';el.innerHTML=`<div class="ou-team-plate"><span class="ou-team-mark">${initials(name)}</span><span class="ou-team-copy"><span class="ou-team-name">${name}</span></span></div>`;});return;}
     if(shell.classList.contains('route-budget')||shell.classList.contains('route-record')) return;
     (window.OVERUNDER_DATA?.teams||[]).forEach(t=>{if(!t?.name||/^TEAM \d+$/i.test(t.name))return;const replacement=genericName(t.id);document.querySelectorAll('main td.team, main .teamline .name, main .team-card strong, main .record-hero h2, main .history td.team').forEach(el=>{if(el.textContent.includes(t.name))el.textContent=el.textContent.replace(t.name,replacement);});});
   }
