@@ -94,7 +94,7 @@ function doublePage(){
  const rows=entries.map((e,i)=>{
   const rank=n-6+i,safe=rank<=n-5;
   const row=`<tr class="${safe?'ou-safe-row':'ou-penalty-row'} ${rank===n-4?'ou-first-penalty':''}"><td class="rank">${rank}</td><td class="team">${nameOf(e.teamId)}</td><td>${fmtScore(e.scoreA)}</td><td>${fmtScore(e.scoreB)}</td><td><b>${pending?'–':e.total.toFixed(2)}</b></td><td>${safe?'—':pending?'NA ČEKANJU':fmt(DATA.meta.doublePenalty)+' RSD'}</td></tr>`;
-  if(rank===n-5&&boundaryGap!==null){
+  if(rank===n-4&&boundaryGap!==null){
    return `<tr class="ou-gap-row"><td colspan="6"><span class="ou-gap-icon">✦</span> 13. mesto izbeglo kaznu za <strong>${gapLabel} poena</strong></td></tr>`+row;
   }
   return row;
