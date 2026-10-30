@@ -109,7 +109,7 @@ function doublePage(){
  .route-double .ou-team-plate{min-width:0!important;width:min(100%,360px)!important;min-height:0!important;padding:7px 10px 7px 7px!important}
  .route-double .ou-team-mark{width:30px!important;height:30px!important}
  .route-double .ou-team-name{font-size:14px!important}
- @media(orientation:landscape){.route-double~#ouLiveViewers{left:auto!important;right:12px!important;top:8px!important;transform:none!important}.route-double .ou-team-plate{width:min(100%,310px)!important}}
+ @media(orientation:landscape){body:has(.route-double) #ouLiveViewers{left:auto!important;right:12px!important;top:8px!important;transform:none!important}.route-double .ou-team-plate{width:min(100%,310px)!important}}
  .route-double .ou-safe-row{opacity:.67;background:rgba(115,115,115,.065)}
  .route-double .ou-safe-row td{color:#c7c4bc!important}
  .route-double .ou-safe-row td.rank{color:#aaa!important;text-shadow:none!important}
