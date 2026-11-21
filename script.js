@@ -81,11 +81,20 @@ function cupDrawReset(){CUP_DRAW={order:[],index:0,started:false,busy:false};for
 function cupDrawFinalShow(){if(CUP_DRAW.index!==18)return;const box=document.getElementById('drawFinal'),pairs=document.getElementById('drawFinalPairs');let html='<div class="final-section"><h3>PLAY-IN</h3>';html+=`<div><span>${CUP_DRAW.order[0].name}</span><b>VS</b><span>${CUP_DRAW.order[1].name}</span></div><div><span>${CUP_DRAW.order[2].name}</span><b>VS</b><span>${CUP_DRAW.order[3].name}</span></div></div><div class="final-section"><h3>ROUND OF 16</h3>`;for(let i=4;i<16;i+=2)html+=`<div><span>${CUP_DRAW.order[i].name}</span><b>VS</b><span>${CUP_DRAW.order[i+1].name}</span></div>`;html+=`<div><span>${CUP_DRAW.order[16].name}</span><b>VS</b><span>POBEDNIK PLAY-IN 1</span></div><div><span>${CUP_DRAW.order[17].name}</span><b>VS</b><span>POBEDNIK PLAY-IN 2</span></div></div>`;pairs.innerHTML=html;box.classList.add('show');let n=10;document.getElementById('finalCountdown').textContent=n;const timer=setInterval(()=>{n--;const el=document.getElementById('finalCountdown');if(el)el.textContent=Math.max(0,n);if(n<=0){clearInterval(timer);box.classList.remove('show')}},1000)}
 
 function budgetRows(){return DATA.budget.map((b,i)=>{const total=(Number(b.participation)||0)+(Number(b.league)||0),paid=Number(b.paid)||0,outstanding=Math.max(0,total-paid),status=outstanding===0?'paid':'owes';return {...b,total,paid,outstanding,status,seed:i}})}
-function budget(){const rows=budgetRows(),collected=rows.reduce((s,r)=>s+r.paid,0),out=rows.reduce((s,r)=>s+r.outstanding,0);const tr=rows.map((r,i)=>`<tr><td>${i+1}</td><td class="team">${nameOf(r.teamId)}</td><td>${fmt(r.participation)}</td><td>${fmt(r.league)}</td><td><b>${fmt(r.total)}</b></td><td><span class="status ${r.status}">${r.status==='paid'?'PLAĆENO':'DUGUJE'} · ${fmt(r.outstanding)} RSD</span></td></tr>`).join('');return shell(`<section class="page-head"><h1>BUDŽET</h1><p>Pregled uplata, dugovanja i stanja</p></section><section class="grid stats"><div class="card stat"><small>Učesnici</small><b>${rows.length}</b></div><div class="card stat"><small>Naplaćeno</small><b>${fmt(collected)} RSD</b></div><div class="card stat"><small>Dugovanje</small><b>${fmt(out)} RSD</b></div><div class="card stat"><small>Kotizacija</small><b>${fmt(DATA.meta.entryFee)} RSD</b></div></section><div class="table-wrap"><table><thead><tr><th>#</th><th>NAZIV TIMA</th><th>UČEŠĆE</th><th>LIGA</th><th>UKUPNO</th><th>STATUS</th></tr></thead><tbody>${tr}</tbody></table></div><section class="card payment-card"><div><small>BROJ RAČUNA ZA UPLATU</small><h3>${DATA.payment.bank}</h3><strong>${DATA.payment.account}</strong><p>${DATA.payment.holder}</p></div><button class="copy-btn" onclick="navigator.clipboard?.writeText('${DATA.payment.account}');this.textContent='KOPIRANO ✓'">KOPIRAJ BROJ RAČUNA</button></section>`,'budget');}
+function budget(){const rows=budgetRows(),collected=rows.reduce((s,r)=>s+r.paid,0),out=rows.reduce((s,r)=>s+r.outstanding,0);const tr=rows.map((r,i)=>`<tr><td>${i+1}</td><td class="team">${nameOf(r.teamId)}</td><td>${fmt(r.participation)}</td><td>${fmt(r.league)}</td><td><b>${fmt(r.total)}</b></td><td><span class="status ${r.status}">${r.status==='paid'?'PLAĆENO':'DUGUJE'} · ${fmt(r.outstanding)} RSD</span></td></tr>`).join('');return shell(`<section class="page-head"><h1>BUDŽET</h1><p>Pregled uplata, dugovanja i stanja</p></section><section class="grid stats"><div class="card stat"><small>Učesnici</small><b>${rows.length}</b></div><div class="card stat"><small>Naplaćeno</small><b>${fmt(collected)} RSD</b></div><div class="card stat"><small>Dugovanje</small><b>${fmt(out)} RSD</b></div><div class="card stat"><small>Kotizacija</small><b>${fmt(DATA.meta.entryFee)} RSD</b></div></section>${podiumHtml}<div class="table-wrap"><table><thead><tr><th>#</th><th>NAZIV TIMA</th><th>UČEŠĆE</th><th>LIGA</th><th>UKUPNO</th><th>STATUS</th></tr></thead><tbody>${tr}</tbody></table></div><section class="card payment-card"><div><small>BROJ RAČUNA ZA UPLATU</small><h3>${DATA.payment.bank}</h3><strong>${DATA.payment.account}</strong><p>${DATA.payment.holder}</p></div><button class="copy-btn" onclick="navigator.clipboard?.writeText('${DATA.payment.account}');this.textContent='KOPIRANO ✓'">KOPIRAJ BROJ RAČUNA</button></section>`,'budget');}
 function doublePage(){
  const d=DATA.doubleRounds[DATA.doubleRounds.length-1];
  const pending=d.entries.some(e=>e.scoreB==null);
  const ranked=d.entries.map(e=>({...e,total:(Number(e.scoreA)||0)+(Number(e.scoreB)||0)})).sort((a,b)=>b.total-a.total);
+ const podium=ranked.slice(0,3);
+ const podiumNumber=(d.label.match(/\\d+/)||[])[0]||'';
+ const podiumTitle='POBEDNIK '+(podiumNumber?podiumNumber+'. ':'')+'DUPLOG KOLA';
+ const podiumCards=[1,0,2].map(idx=>{
+  const e=podium[idx],place=idx+1;
+  if(!e)return '';
+  return `<div class="ou-podium-card ou-podium-${place}"><div class="ou-podium-medal">${place===1?'♛':place===2?'Ⅱ':'Ⅲ'}</div><div class="ou-podium-place">${place}. MESTO</div><div class="ou-podium-team">${nameOf(e.teamId)}</div><div class="ou-podium-score">${pending?'—':e.total.toFixed(2)} <small>FPT</small></div></div>`;
+ }).join('');
+ const podiumHtml=`<section class="ou-podium"><div class="ou-podium-heading"><h2>${podiumTitle}</h2><span>${d.roundA}. + ${d.roundB}. KOLO</span></div><div class="ou-podium-grid">${podiumCards}</div>${pending?'<p class="ou-podium-pending">Privremeni TOP 3 nakon prvog kola. Konačan plasman posle drugog kola.</p>':''}</section>`;
  const entries=ranked.slice(-7);
  const n=ranked.length;
  const fmtScore=x=>x==null?'–':Number(x).toFixed(2).replace(/\.00$/,'');
@@ -97,6 +106,27 @@ function doublePage(){
   return row;
  }).join('');
  return shell(`<style>
+ .route-double .ou-podium{margin:18px 0 24px;padding:18px 14px 16px;border:1px solid rgba(211,169,89,.35);border-radius:18px;background:linear-gradient(145deg,#16130e,#09090b 65%);box-shadow:0 12px 32px rgba(0,0,0,.25)}
+ .route-double .ou-podium-heading{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:7px;margin-bottom:17px}
+ .route-double .ou-podium-heading h2{margin:0;color:#eecb82;font-size:clamp(17px,3.5vw,25px);font-weight:800;letter-spacing:.035em}
+ .route-double .ou-podium-heading span{color:#a69a85;font-size:11px;letter-spacing:.07em}
+ .route-double .ou-podium-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;align-items:end}
+ .route-double .ou-podium-card{min-width:0;padding:15px 7px 13px;text-align:center;border-radius:13px;border:1px solid rgba(167,167,167,.34);background:linear-gradient(160deg,#1b1b1e,#0d0d0f);overflow-wrap:anywhere}
+ .route-double .ou-podium-1{padding-top:20px;padding-bottom:19px;border-color:#cfa652;background:linear-gradient(160deg,#35280f,#16110a 70%);box-shadow:0 0 22px rgba(209,163,73,.12)}
+ .route-double .ou-podium-2{border-color:#828992}
+ .route-double .ou-podium-3{border-color:#996b50;background:linear-gradient(160deg,#261b16,#100e0d)}
+ .route-double .ou-podium-medal{font-size:24px;line-height:1.1;color:#bfc5ce}
+ .route-double .ou-podium-1 .ou-podium-medal{font-size:29px;color:#f4c96b}
+ .route-double .ou-podium-3 .ou-podium-medal{color:#cb9b7b}
+ .route-double .ou-podium-place{font-size:10px;font-weight:800;letter-spacing:.09em;color:#aeb3ba;margin:7px 0}
+ .route-double .ou-podium-1 .ou-podium-place{color:#f4c96b}
+ .route-double .ou-podium-3 .ou-podium-place{color:#cb9b7b}
+ .route-double .ou-podium-team{color:#f7f5f0;font-size:clamp(11px,2.6vw,15px);font-weight:750;line-height:1.3;min-height:38px;display:flex;align-items:center;justify-content:center}
+ .route-double .ou-podium-score{color:#e4e4e4;font-weight:850;font-size:clamp(15px,3.6vw,23px);font-variant-numeric:tabular-nums;margin-top:9px;white-space:nowrap}
+ .route-double .ou-podium-1 .ou-podium-score{color:#f5d48b}
+ .route-double .ou-podium-score small{font-size:9px;font-weight:600;opacity:.8}
+ .route-double .ou-podium-pending{font-size:11px;color:#bfb6a7;text-align:center;margin:13px 0 0}
+ @media(max-width:380px){.route-double .ou-podium{padding:14px 9px}.route-double .ou-podium-grid{gap:5px}.route-double .ou-podium-card{padding-left:4px;padding-right:4px}.route-double .ou-podium-score{font-size:14px}}
  .route-double .table-wrap{background:rgba(4,4,5,.97)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
  .route-double .table-wrap table{background:rgba(5,5,6,.96)}
  .route-double .ou-team-plate{min-width:0!important;width:min(100%,360px)!important;min-height:0!important;padding:7px 10px 7px 7px!important}
