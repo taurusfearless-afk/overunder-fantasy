@@ -227,6 +227,13 @@ function doublePage(){
  .route-double .ou-gap-note strong{color:#ffe4a7}
  .route-double .ou-gap-note .ou-gap-icon{font-size:16px;line-height:1}
  @media(max-width:640px){.route-double .ou-gap-note{font-size:11px}}
+ /* Final polish: calm the busy basketball wallpaper without losing the OverUnder identity. */
+ .route-double .bg{filter:saturate(.72) contrast(.94) brightness(.70)!important;transform:scale(1.04)}
+ .route-double .bg::after{background:linear-gradient(180deg,rgba(0,0,0,.75) 0%,rgba(0,0,0,.84) 35%,rgba(0,0,0,.91) 72%,rgba(0,0,0,.95) 100%)!important;backdrop-filter:blur(2.4px)!important;-webkit-backdrop-filter:blur(2.4px)!important}
+ .route-double .bg::before{background:radial-gradient(ellipse at 50% 12%,rgba(218,172,78,.095),transparent 43%)!important}
+ .route-double .page-head{text-shadow:0 2px 15px rgba(0,0,0,.85)}
+ .route-double .ou-podium,.route-double .ou-rank-card{backdrop-filter:none;-webkit-backdrop-filter:none}
+ @media(max-width:720px){.route-double .bg{filter:saturate(.65) contrast(.92) brightness(.63)!important}.route-double .bg::after{background:linear-gradient(180deg,rgba(0,0,0,.79),rgba(0,0,0,.88) 42%,rgba(0,0,0,.94))!important}}
  .route-double .ou-mobile-standings{display:none}
  @media(max-width:720px){
   .route-double .table-wrap{display:none!important}
