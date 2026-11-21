@@ -92,7 +92,7 @@ function doublePage(){
  const podiumCards=[1,0,2].map(idx=>{
   const e=podium[idx],place=idx+1;
   if(!e)return '';
-  return `<div class="ou-podium-card ou-podium-${place}"><div class="ou-podium-medal">${place===1?'<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M10 21 21 32 32 13 43 32 54 21 49 47H15L10 21Z" fill="currentColor" fill-opacity=".20" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M17 53h30M20 47h24" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="10" cy="19" r="3" fill="currentColor"/><circle cx="32" cy="11" r="3" fill="currentColor"/><circle cx="54" cy="19" r="3" fill="currentColor"/></svg>':'<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M17 7h12l7 17H24L17 7Zm18 0h12l-7 17H28L35 7Z" fill="currentColor" fill-opacity=".23" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="32" cy="38" r="19" fill="currentColor" fill-opacity=".13" stroke="currentColor" stroke-width="3"/><circle cx="32" cy="38" r="14" fill="none" stroke="currentColor" stroke-opacity=".42" stroke-width="1.5"/></svg>'}${place===1?'':'<span class="ou-medal-number">'+place+'</span>'}</div><div class="ou-podium-place">${place}. MESTO</div><div class="ou-podium-team">${nameOf(e.teamId)}</div><div class="ou-podium-score">${pending?'—':e.total.toFixed(2)} <small>FPT</small></div></div>`;
+  return `<div class="ou-podium-card ou-podium-${place}"><div class="ou-podium-medal">${`<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M17 7h12l7 17H24L17 7Zm18 0h12l-7 17H28L35 7Z" fill="currentColor" fill-opacity=".23" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="32" cy="38" r="19" fill="currentColor" fill-opacity=".13" stroke="currentColor" stroke-width="3"/><circle cx="32" cy="38" r="14" fill="none" stroke="currentColor" stroke-opacity=".42" stroke-width="1.5"/></svg><span class="ou-medal-number">${place}</span>`}</div><div class="ou-podium-place">${place}. MESTO</div><div class="ou-podium-team">${nameOf(e.teamId)}</div><div class="ou-podium-score">${pending?'—':e.total.toFixed(2)} <small>FPT</small></div></div>`;
  }).join('');
  const podiumHtml=`<section class="ou-podium"><div class="ou-podium-heading"><h2>${podiumTitle}</h2><span>${d.roundA}. + ${d.roundB}. KOLO</span></div><div class="ou-podium-grid">${podiumCards}</div>${pending?'<p class="ou-podium-pending">Privremeni TOP 3 nakon prvog kola. Konačan plasman posle drugog kola.</p>':''}</section>`;
  const entries=ranked.slice(-7);
@@ -133,6 +133,15 @@ function doublePage(){
  .route-double .ou-gap-note{margin-top:16px!important;border-radius:14px!important}
  @media(hover:hover){.route-double .table-wrap tbody tr:hover{background:rgba(222,170,84,.12)!important}}
  @media(max-width:640px){.route-double .ou-standings-head{margin-top:20px}.route-double .table-wrap tbody td{padding-top:10px!important;padding-bottom:10px!important}.route-double .table-wrap thead th{padding-top:16px!important;padding-bottom:16px!important}}
+ .route-double .ou-podium-team{font-family:Inter,system-ui,Arial,sans-serif!important;font-size:clamp(14px,3.5vw,19px)!important;font-weight:850!important;line-height:1.16!important;min-height:54px!important;letter-spacing:-.025em!important;padding:0 1px!important;text-wrap:balance}
+ .route-double .ou-podium-card{padding-left:5px!important;padding-right:5px!important}
+ .route-double .ou-podium-1 .ou-podium-team{font-size:clamp(15px,3.8vw,20px)!important}
+ .route-double .ou-podium-medal{filter:none!important}
+ .route-double .ou-podium-1 .ou-podium-medal{filter:drop-shadow(0 0 9px rgba(241,191,91,.26))!important}
+ .route-double .ou-medal-number{top:60%!important;font-size:18px!important;font-weight:900!important}
+ .route-double .ou-podium-1 .ou-medal-number{font-size:20px!important}
+ .route-double .ou-podium-score{margin-top:10px!important}
+ @media(max-width:390px){.route-double .ou-podium-team{font-size:13px!important}.route-double .ou-podium-1 .ou-podium-team{font-size:14px!important}}
  .route-double .ou-podium{margin:18px 0 24px;padding:18px 14px 16px;border:1px solid rgba(211,169,89,.35);border-radius:18px;background:linear-gradient(145deg,#16130e,#09090b 65%);box-shadow:0 12px 32px rgba(0,0,0,.25)}
  .route-double .ou-podium-heading{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:7px;margin-bottom:17px}
  .route-double .ou-podium-heading h2{margin:0;color:#eecb82;font-size:clamp(17px,3.5vw,25px);font-weight:800;letter-spacing:.035em}
