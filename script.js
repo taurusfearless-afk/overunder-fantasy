@@ -274,6 +274,22 @@ function doublePage(){
   .route-double .ou-rank-card:nth-child(3){margin-top:5px!important}
  }
  @media(max-width:360px){.route-double .ou-rank-card{padding:11px 9px}.route-double .ou-rank-team{font-size:14px}.route-double .ou-rank-status{max-width:83px;font-size:9px}.route-double .ou-rank-bottom{margin-left:44px}.route-double .ou-rank-bottom strong{font-size:14px}.route-double .ou-rank-bottom .ou-rank-total strong{font-size:16px}}
+ /* Final mobile density adjustment: larger names, less vertical bulk */
+ @media(max-width:720px){
+ .route-double .ou-mobile-standings{gap:6px!important}
+ .route-double .ou-rank-card{padding:7px 10px 8px!important;border-radius:13px!important}
+ .route-double .ou-rank-top{gap:7px!important}
+ .route-double .ou-rank-position{flex-basis:33px!important;font-size:26px!important}
+ .route-double .ou-rank-team{font-size:17px!important;font-weight:850!important;letter-spacing:-.025em!important;line-height:1.12!important}
+ .route-double .ou-rank-status{padding:4px 5px!important;font-size:9px!important}
+ .route-double .ou-rank-bottom{margin:6px 0 0 40px!important;padding-top:6px!important;gap:4px!important}
+ .route-double .ou-rank-bottom>div{gap:1px!important}
+ .route-double .ou-rank-bottom small{font-size:9px!important}
+ .route-double .ou-rank-bottom strong{font-size:15px!important}
+ .route-double .ou-rank-bottom .ou-rank-total strong{font-size:17px!important}
+ .route-double .ou-rank-card:nth-child(3){margin-top:4px!important}
+ }
+ @media(max-width:360px){.route-double .ou-rank-team{font-size:15px!important}.route-double .ou-rank-status{font-size:8px!important}}
  </style><section class="page-head"><h1>DUPLO KOLO</h1><p>${pending?'Privremeni poredak posle '+d.roundA+'. kola · konačan zbir nakon '+d.roundB+'. kola.':'Dva kola. Jedan zbir. Poslednjih pet plaća, dva tima iznad crte.'}</p></section><section class="grid stats"><div class="card stat"><small>Format</small><b>2 KOLA</b></div><div class="card stat"><small>Prikaz</small><b>7 TIMOVA</b></div><div class="card stat"><small>Penal</small><b>${pending?'NA ČEKANJU':fmt(DATA.meta.doublePenalty)+' RSD'}</b></div><div class="card stat"><small>Aktuelno</small><b>${d.label}</b></div></section>${podiumHtml}<div class="ou-mobile-standings">${mobileRows}</div><div class="table-wrap"><table><thead><tr><th>POS.</th><th>NAZIV TIMA</th><th>KOLO ${d.roundA}</th><th>KOLO ${d.roundB}</th><th>UKUPNO</th><th>PENAL</th></tr></thead><tbody>${rows}</tbody></table></div>${boundaryGap===null?'':`<div class="ou-gap-note"><span class="ou-gap-icon">✦</span><span>13. mesto izbeglo kaznu za <strong>${gapLabel} poena</strong></span></div>`}`,'double');
 }
 function record(){const history=[...DATA.highScores].sort((a,b)=>b.points-a.points),rec=history[0]||null;return shell(`<section class="page-head"><h1>NAJVIŠE POENA</h1><p>Rekord sezone ${DATA.meta.season}</p></section><div class="card record-hero"><div class="eyebrow">SEZONSKI REKORD</div><div class="pts">${rec?rec.points:'000'}</div><h2>${rec?nameOf(rec.teamId):'TEAM 01'}</h2><p>${rec?`KOLO ${rec.round}`:'KOLO 00'}</p></div><div class="card history"><h3 style="font-family:'Bebas Neue';font-size:30px;color:var(--gold2);margin-top:0">ISTORIJA REKORDA</h3>${history.length?`<div class="table-wrap"><table><thead><tr><th>#</th><th>TIM</th><th>KOLO</th><th>POENI</th></tr></thead><tbody>${history.map((h,i)=>`<tr><td>${i+1}</td><td class="team">${nameOf(h.teamId)}</td><td>${h.round}</td><td><b>${h.points}</b></td></tr>`).join('')}</tbody></table></div>`:`<div class="notice">Još nema unetih rezultata. Rekord će se pojaviti automatski čim dodaš prvi rezultat.</div>`}</div>`,'record');}
