@@ -92,7 +92,7 @@ function doublePage(){
  const podiumCards=[1,0,2].map(idx=>{
   const e=podium[idx],place=idx+1;
   if(!e)return '';
-  return `<div class="ou-podium-card ou-podium-${place}"><div class="ou-podium-medal">${place===1?'<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M10 21 21 32 32 13 43 32 54 21 49 47H15L10 21Z" fill="currentColor" fill-opacity=".20" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M17 53h30M20 47h24" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="10" cy="19" r="3" fill="currentColor"/><circle cx="32" cy="11" r="3" fill="currentColor"/><circle cx="54" cy="19" r="3" fill="currentColor"/></svg>':'<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M17 7h12l7 17H24L17 7Zm18 0h12l-7 17H28L35 7Z" fill="currentColor" fill-opacity=".23" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="32" cy="38" r="19" fill="currentColor" fill-opacity=".13" stroke="currentColor" stroke-width="3"/><circle cx="32" cy="38" r="14" fill="none" stroke="currentColor" stroke-opacity=".42" stroke-width="1.5"/><path d="M25 38l5 5 10-11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>'}</div><div class="ou-podium-place">${place}. MESTO</div><div class="ou-podium-team">${nameOf(e.teamId)}</div><div class="ou-podium-score">${pending?'—':e.total.toFixed(2)} <small>FPT</small></div></div>`;
+  return `<div class="ou-podium-card ou-podium-${place}"><div class="ou-podium-medal">${place===1?'<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M10 21 21 32 32 13 43 32 54 21 49 47H15L10 21Z" fill="currentColor" fill-opacity=".20" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M17 53h30M20 47h24" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="10" cy="19" r="3" fill="currentColor"/><circle cx="32" cy="11" r="3" fill="currentColor"/><circle cx="54" cy="19" r="3" fill="currentColor"/></svg>':'<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M17 7h12l7 17H24L17 7Zm18 0h12l-7 17H28L35 7Z" fill="currentColor" fill-opacity=".23" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="32" cy="38" r="19" fill="currentColor" fill-opacity=".13" stroke="currentColor" stroke-width="3"/><circle cx="32" cy="38" r="14" fill="none" stroke="currentColor" stroke-opacity=".42" stroke-width="1.5"/><text x="32" y="46" text-anchor="middle" font-size="23" font-weight="800" fill="currentColor">${place}</text></svg>'}</div><div class="ou-podium-place">${place}. MESTO</div><div class="ou-podium-team">${nameOf(e.teamId)}</div><div class="ou-podium-score">${pending?'—':e.total.toFixed(2)} <small>FPT</small></div></div>`;
  }).join('');
  const podiumHtml=`<section class="ou-podium"><div class="ou-podium-heading"><h2>${podiumTitle}</h2><span>${d.roundA}. + ${d.roundB}. KOLO</span></div><div class="ou-podium-grid">${podiumCards}</div>${pending?'<p class="ou-podium-pending">Privremeni TOP 3 nakon prvog kola. Konačan plasman posle drugog kola.</p>':''}</section>`;
  const entries=ranked.slice(-7);
@@ -128,6 +128,32 @@ function doublePage(){
  .route-double .grid.stats .card.stat{background:linear-gradient(155deg,rgba(20,19,18,.98),rgba(8,8,9,.98))!important;border-color:rgba(202,163,88,.28)!important;box-shadow:inset 0 1px 0 rgba(255,231,171,.045)}
  .route-double .grid.stats .card.stat small{letter-spacing:.11em}
  .route-double .grid.stats .card.stat b{line-height:1.1}
+ /* Double round · polished metal rim system */
+ .route-double .page-head{position:relative;padding-bottom:20px;margin-bottom:20px}
+ .route-double .page-head:after{content:"";position:absolute;bottom:0;left:0;width:min(220px,55%);height:2px;background:linear-gradient(90deg,#f3cf7c,rgba(243,207,124,0))}
+ .route-double .grid.stats{gap:12px;margin-bottom:22px}
+ .route-double .grid.stats .card.stat{position:relative;overflow:hidden;isolation:isolate;border-radius:18px!important;transition:transform .2s ease,border-color .2s ease}
+ .route-double .grid.stats .card.stat:before{content:"";position:absolute;pointer-events:none;inset:0 0 auto;height:2px;background:linear-gradient(90deg,transparent,rgba(248,212,139,.82),transparent);opacity:.78}
+ .route-double .grid.stats .card.stat:after{content:"";position:absolute;pointer-events:none;inset:0;border-radius:inherit;background:radial-gradient(ellipse at 50% -18%,rgba(235,190,103,.12),transparent 68%);z-index:-1}
+ .route-double .grid.stats .card.stat small{color:#aaa49a}
+ .route-double .ou-podium{border-radius:21px;overflow:hidden}
+ .route-double .ou-podium:before{content:"";position:absolute;pointer-events:none;top:0;left:7%;right:7%;height:2px;background:linear-gradient(90deg,transparent,rgba(245,207,130,.95),transparent);box-shadow:0 0 15px rgba(245,207,130,.3)}
+ .route-double .ou-podium-card{isolation:isolate;overflow:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 9px 22px rgba(0,0,0,.22)}
+ .route-double .ou-podium-card:before{height:3px;opacity:.88;box-shadow:0 0 11px currentColor}
+ .route-double .ou-podium-card:after{content:"";position:absolute;pointer-events:none;inset:0;border-radius:inherit;background:radial-gradient(ellipse at 50% -10%,currentColor,transparent 55%);opacity:.075;z-index:-1}
+ .route-double .ou-podium-2{color:#bfc6d0}
+ .route-double .ou-podium-1{color:#f0c76b}
+ .route-double .ou-podium-3{color:#c79776}
+ .route-double .ou-podium-medal{filter:drop-shadow(0 0 7px currentColor)}
+ .route-double .ou-podium-2 .ou-podium-medal{color:#c5cbd4}
+ .route-double .ou-podium-3 .ou-podium-medal{color:#d0a184}
+ .route-double .table-wrap{position:relative;box-shadow:0 12px 35px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,222,159,.07)}
+ .route-double .table-wrap:before{content:"";position:absolute;top:0;left:8%;right:8%;height:2px;background:linear-gradient(90deg,transparent,rgba(239,199,117,.84),transparent);pointer-events:none;z-index:2}
+ .route-double .ou-gap-note{position:relative;overflow:hidden;border-radius:13px;background:linear-gradient(130deg,rgba(28,23,14,.98),rgba(13,12,11,.98));padding:14px 12px}
+ .route-double .ou-gap-note:before{content:"";position:absolute;inset:0 10% auto;height:1px;background:linear-gradient(90deg,transparent,rgba(245,204,124,.7),transparent)}
+ @media(hover:hover){.route-double .grid.stats .card.stat:hover{transform:translateY(-2px);border-color:rgba(239,195,106,.55)!important}}
+ @media(max-width:640px){.route-double .grid.stats{gap:10px}.route-double .ou-podium{margin-top:16px}.route-double .ou-podium-card{border-radius:15px}.route-double .ou-podium-heading h2{line-height:1.15}}
+ @media(prefers-reduced-motion:reduce){.route-double .grid.stats .card.stat{transition:none}}
  .route-double .ou-podium{position:relative;isolation:isolate}
  .route-double .ou-podium:after{content:"";pointer-events:none;position:absolute;inset:0;border-radius:inherit;background:radial-gradient(ellipse at 50% 5%,rgba(214,162,66,.07),transparent 64%);z-index:-1}
  .route-double .table-wrap{border-color:rgba(205,166,91,.33)!important;border-radius:17px!important;overflow:auto}
