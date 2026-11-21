@@ -100,6 +100,10 @@ function doublePage(){
  const fmtScore=x=>x==null?'–':Number(x).toFixed(2).replace(/\.00$/,'');
  const boundaryGap=!pending&&ranked.length>=6?Math.max(0,ranked[n-6].total-ranked[n-5].total):null;
  const gapLabel=boundaryGap===null?'':boundaryGap.toFixed(2).replace('.',',');
+ const mobileRows=entries.map((e,i)=>{
+  const rank=n-6+i,safe=rank<=n-5,penalty=safe?'IZNAD CRTE':pending?'NA ČEKANJU':fmt(DATA.meta.doublePenalty)+' RSD';
+  return `<article class="ou-rank-card ${safe?'ou-rank-safe':'ou-rank-penalty'}"><div class="ou-rank-top"><span class="ou-rank-position">${rank}<small>.</small></span><div class="ou-rank-team">${nameOf(e.teamId)}</div><span class="ou-rank-status">${penalty}</span></div><div class="ou-rank-bottom"><div><small>KOLO ${d.roundA}</small><strong>${fmtScore(e.scoreA)}</strong></div><div><small>KOLO ${d.roundB}</small><strong>${fmtScore(e.scoreB)}</strong></div><div class="ou-rank-total"><small>UKUPNO</small><strong>${pending?'—':e.total.toFixed(2)}</strong></div></div></article>`;
+ }).join('');
  const rows=entries.map((e,i)=>{
   const rank=n-6+i,safe=rank<=n-5;
   const row=`<tr class="${safe?'ou-safe-row':'ou-penalty-row'}"><td class="rank">${rank}</td><td class="team">${nameOf(e.teamId)}</td><td>${fmtScore(e.scoreA)}</td><td>${fmtScore(e.scoreB)}</td><td><b>${pending?'–':e.total.toFixed(2)}</b></td><td>${safe?'—':pending?'NA ČEKANJU':fmt(DATA.meta.doublePenalty)+' RSD'}</td></tr>`;
@@ -223,7 +227,33 @@ function doublePage(){
  .route-double .ou-gap-note strong{color:#ffe4a7}
  .route-double .ou-gap-note .ou-gap-icon{font-size:16px;line-height:1}
  @media(max-width:640px){.route-double .ou-gap-note{font-size:11px}}
- </style><section class="page-head"><h1>DUPLO KOLO</h1><p>${pending?'Privremeni poredak posle '+d.roundA+'. kola · konačan zbir nakon '+d.roundB+'. kola.':'Dva kola. Jedan zbir. Poslednjih pet plaća, dva tima iznad crte.'}</p></section><section class="grid stats"><div class="card stat"><small>Format</small><b>2 KOLA</b></div><div class="card stat"><small>Prikaz</small><b>7 TIMOVA</b></div><div class="card stat"><small>Penal</small><b>${pending?'NA ČEKANJU':fmt(DATA.meta.doublePenalty)+' RSD'}</b></div><div class="card stat"><small>Aktuelno</small><b>${d.label}</b></div></section>${podiumHtml}<div class="table-wrap"><table><thead><tr><th>POS.</th><th>NAZIV TIMA</th><th>KOLO ${d.roundA}</th><th>KOLO ${d.roundB}</th><th>UKUPNO</th><th>PENAL</th></tr></thead><tbody>${rows}</tbody></table></div>${boundaryGap===null?'':`<div class="ou-gap-note"><span class="ou-gap-icon">✦</span><span>13. mesto izbeglo kaznu za <strong>${gapLabel} poena</strong></span></div>`}`,'double');
+ .route-double .ou-mobile-standings{display:none}
+ @media(max-width:720px){
+  .route-double .table-wrap{display:none!important}
+  .route-double .ou-mobile-standings{display:grid;gap:9px;margin-top:8px}
+  .route-double .ou-rank-card{position:relative;overflow:hidden;border-radius:17px;border:1px solid rgba(205,174,111,.24);background:linear-gradient(125deg,#191715,#0c0c0e 72%);padding:12px 13px 13px;box-shadow:inset 0 1px 0 rgba(255,233,177,.06),0 6px 18px rgba(0,0,0,.18)}
+  .route-double .ou-rank-card:before{content:"";position:absolute;inset:0 14% auto;height:2px;background:linear-gradient(90deg,transparent,rgba(231,193,119,.55),transparent)}
+  .route-double .ou-rank-safe{background:linear-gradient(120deg,#151619,#0b0c0e 76%);border-color:rgba(159,168,180,.22)}
+  .route-double .ou-rank-safe:before{background:linear-gradient(90deg,transparent,rgba(175,184,194,.5),transparent)}
+  .route-double .ou-rank-penalty{border-color:rgba(220,171,91,.34)}
+  .route-double .ou-rank-top{display:flex;align-items:center;gap:10px;min-width:0}
+  .route-double .ou-rank-position{flex:0 0 39px;font:800 30px/1 'Bebas Neue',Impact,sans-serif;color:#e9bd70;text-align:center}
+  .route-double .ou-rank-safe .ou-rank-position{color:#a7a9b0}
+  .route-double .ou-rank-position small{font-size:15px}
+  .route-double .ou-rank-team{min-width:0;flex:1;color:#fff;font-size:16px;font-weight:800;line-height:1.15;overflow-wrap:anywhere}
+  .route-double .ou-rank-status{flex:0 0 auto;max-width:95px;padding:6px 7px;border-radius:7px;background:rgba(218,163,78,.12);color:#f2c87e;font-size:10px;line-height:1.2;font-weight:800;text-align:center;white-space:normal}
+  .route-double .ou-rank-safe .ou-rank-status{color:#b7bdc6;background:rgba(175,184,195,.09)}
+  .route-double .ou-rank-bottom{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:12px 0 0 49px;border-top:1px solid rgba(211,176,111,.12);padding-top:11px;gap:6px}
+  .route-double .ou-rank-bottom>div{display:flex;flex-direction:column;gap:4px}
+  .route-double .ou-rank-bottom small{font-size:10px;letter-spacing:.07em;color:#9f998d;font-weight:700}
+  .route-double .ou-rank-bottom strong{font-size:16px;color:#dedbd6;font-weight:750;font-variant-numeric:tabular-nums}
+  .route-double .ou-rank-bottom .ou-rank-total{padding-left:10px;border-left:1px solid rgba(215,174,99,.22)}
+  .route-double .ou-rank-bottom .ou-rank-total strong{color:#f3cb83;font-size:19px}
+  .route-double .ou-rank-safe .ou-rank-total strong{color:#c4c7cc}
+  .route-double .ou-rank-card:nth-child(3){margin-top:8px}
+ }
+ @media(max-width:360px){.route-double .ou-rank-card{padding:11px 9px}.route-double .ou-rank-team{font-size:14px}.route-double .ou-rank-status{max-width:83px;font-size:9px}.route-double .ou-rank-bottom{margin-left:44px}.route-double .ou-rank-bottom strong{font-size:14px}.route-double .ou-rank-bottom .ou-rank-total strong{font-size:16px}}
+ </style><section class="page-head"><h1>DUPLO KOLO</h1><p>${pending?'Privremeni poredak posle '+d.roundA+'. kola · konačan zbir nakon '+d.roundB+'. kola.':'Dva kola. Jedan zbir. Poslednjih pet plaća, dva tima iznad crte.'}</p></section><section class="grid stats"><div class="card stat"><small>Format</small><b>2 KOLA</b></div><div class="card stat"><small>Prikaz</small><b>7 TIMOVA</b></div><div class="card stat"><small>Penal</small><b>${pending?'NA ČEKANJU':fmt(DATA.meta.doublePenalty)+' RSD'}</b></div><div class="card stat"><small>Aktuelno</small><b>${d.label}</b></div></section>${podiumHtml}<div class="ou-mobile-standings">${mobileRows}</div><div class="table-wrap"><table><thead><tr><th>POS.</th><th>NAZIV TIMA</th><th>KOLO ${d.roundA}</th><th>KOLO ${d.roundB}</th><th>UKUPNO</th><th>PENAL</th></tr></thead><tbody>${rows}</tbody></table></div>${boundaryGap===null?'':`<div class="ou-gap-note"><span class="ou-gap-icon">✦</span><span>13. mesto izbeglo kaznu za <strong>${gapLabel} poena</strong></span></div>`}`,'double');
 }
 function record(){const history=[...DATA.highScores].sort((a,b)=>b.points-a.points),rec=history[0]||null;return shell(`<section class="page-head"><h1>NAJVIŠE POENA</h1><p>Rekord sezone ${DATA.meta.season}</p></section><div class="card record-hero"><div class="eyebrow">SEZONSKI REKORD</div><div class="pts">${rec?rec.points:'000'}</div><h2>${rec?nameOf(rec.teamId):'TEAM 01'}</h2><p>${rec?`KOLO ${rec.round}`:'KOLO 00'}</p></div><div class="card history"><h3 style="font-family:'Bebas Neue';font-size:30px;color:var(--gold2);margin-top:0">ISTORIJA REKORDA</h3>${history.length?`<div class="table-wrap"><table><thead><tr><th>#</th><th>TIM</th><th>KOLO</th><th>POENI</th></tr></thead><tbody>${history.map((h,i)=>`<tr><td>${i+1}</td><td class="team">${nameOf(h.teamId)}</td><td>${h.round}</td><td><b>${h.points}</b></td></tr>`).join('')}</tbody></table></div>`:`<div class="notice">Još nema unetih rezultata. Rekord će se pojaviti automatski čim dodaš prvi rezultat.</div>`}</div>`,'record');}
 function rules(){const blocks=[['UČESTVOVANJE',DATA.rules.participation],['PENALI',DATA.rules.penalties],['LIGA',DATA.rules.leagueFinal],['KUP',DATA.rules.cup],['POSEBNE NAPOMENE',DATA.rules.special]];return shell(`<section class="page-head"><h1>PRAVILA & NAGRADE</h1><p>Over Under Fantasy Liga · ${DATA.meta.season}</p></section><div class="grid rules-grid">${blocks.map(([t,arr])=>`<section class="card"><h3>${t}</h3><ul>${arr.map(x=>`<li>${x}</li>`).join('')}</ul></section>`).join('')}<section class="card"><h3>NAGRADE</h3><div class="prizes">${DATA.prizes.map((p,i)=>`<div class="prize"><div class="medal">${i+1}</div><div><b>${p.title}</b><div>${p.text}</div></div></div>`).join('')}</div></section></div><div class="notice">Napomena: žurka je planirana za <b>24.04.2027.</b> Datum nije konačan i može doći do pomeranja u zavisnosti od dogovora i mogućnosti članova lige.</div><div class="rules-joke">${DATA.footerJoke||''}</div>`,'rules');}
