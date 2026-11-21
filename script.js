@@ -92,7 +92,7 @@ function doublePage(){
  const podiumCards=[1,0,2].map(idx=>{
   const e=podium[idx],place=idx+1;
   if(!e)return '';
-  return `<div class="ou-podium-card ou-podium-${place}"><div class="ou-podium-medal">${place===1?'♛':place===2?'Ⅱ':'Ⅲ'}</div><div class="ou-podium-place">${place}. MESTO</div><div class="ou-podium-team">${nameOf(e.teamId)}</div><div class="ou-podium-score">${pending?'—':e.total.toFixed(2)} <small>FPT</small></div></div>`;
+  return `<div class="ou-podium-card ou-podium-${place}"><div class="ou-podium-medal">${place===1?'<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M10 21 21 32 32 13 43 32 54 21 49 47H15L10 21Z" fill="currentColor" fill-opacity=".20" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M17 53h30M20 47h24" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="10" cy="19" r="3" fill="currentColor"/><circle cx="32" cy="11" r="3" fill="currentColor"/><circle cx="54" cy="19" r="3" fill="currentColor"/></svg>':'<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M17 7h12l7 17H24L17 7Zm18 0h12l-7 17H28L35 7Z" fill="currentColor" fill-opacity=".23" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="32" cy="38" r="19" fill="currentColor" fill-opacity=".13" stroke="currentColor" stroke-width="3"/><circle cx="32" cy="38" r="14" fill="none" stroke="currentColor" stroke-opacity=".42" stroke-width="1.5"/><path d="M25 38l5 5 10-11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>'}</div><div class="ou-podium-place">${place}. MESTO</div><div class="ou-podium-team">${nameOf(e.teamId)}</div><div class="ou-podium-score">${pending?'—':e.total.toFixed(2)} <small>FPT</small></div></div>`;
  }).join('');
  const podiumHtml=`<section class="ou-podium"><div class="ou-podium-heading"><h2>${podiumTitle}</h2><span>${d.roundA}. + ${d.roundB}. KOLO</span></div><div class="ou-podium-grid">${podiumCards}</div>${pending?'<p class="ou-podium-pending">Privremeni TOP 3 nakon prvog kola. Konačan plasman posle drugog kola.</p>':''}</section>`;
  const entries=ranked.slice(-7);
@@ -115,8 +115,26 @@ function doublePage(){
  .route-double .ou-podium-1{padding-top:20px;padding-bottom:19px;border-color:#cfa652;background:linear-gradient(160deg,#35280f,#16110a 70%);box-shadow:0 0 22px rgba(209,163,73,.12)}
  .route-double .ou-podium-2{border-color:#828992}
  .route-double .ou-podium-3{border-color:#996b50;background:linear-gradient(160deg,#261b16,#100e0d)}
- .route-double .ou-podium-medal{font-size:24px;line-height:1.1;color:#bfc5ce}
- .route-double .ou-podium-1 .ou-podium-medal{font-size:29px;color:#f4c96b}
+ .route-double .ou-podium-medal{width:47px;height:47px;display:grid;place-items:center;margin:0 auto 3px;color:#bfc5ce;filter:drop-shadow(0 2px 9px rgba(200,200,200,.14))}
+ .route-double .ou-podium-medal svg{display:block;width:45px;height:45px}
+ .route-double .ou-podium-1 .ou-podium-medal{width:57px;height:57px;filter:drop-shadow(0 0 11px rgba(245,201,107,.32))}
+ .route-double .ou-podium-1 .ou-podium-medal svg{width:56px;height:56px}
+ .route-double .ou-podium-card{position:relative}
+ .route-double .ou-podium-card:before{content:"";position:absolute;inset:0 0 auto;height:2px;background:linear-gradient(90deg,transparent,currentColor,transparent);opacity:.55}
+ .route-double .ou-podium-1:before{opacity:.95}
+ .route-double .ou-podium-1{transform:translateY(-5px)}
+ .route-double .ou-podium-heading{padding-bottom:12px;border-bottom:1px solid rgba(215,174,95,.15)}
+ .route-double .page-head p{max-width:560px;line-height:1.5}
+ .route-double .grid.stats .card.stat{background:linear-gradient(155deg,rgba(20,19,18,.98),rgba(8,8,9,.98))!important;border-color:rgba(202,163,88,.28)!important;box-shadow:inset 0 1px 0 rgba(255,231,171,.045)}
+ .route-double .grid.stats .card.stat small{letter-spacing:.11em}
+ .route-double .grid.stats .card.stat b{line-height:1.1}
+ .route-double .ou-podium{position:relative;isolation:isolate}
+ .route-double .ou-podium:after{content:"";pointer-events:none;position:absolute;inset:0;border-radius:inherit;background:radial-gradient(ellipse at 50% 5%,rgba(214,162,66,.07),transparent 64%);z-index:-1}
+ .route-double .table-wrap{border-color:rgba(205,166,91,.33)!important;border-radius:17px!important;overflow:auto}
+ .route-double .table-wrap thead th{background:#141313!important}
+ .route-double .ou-gap-note{box-shadow:inset 0 1px 0 rgba(243,206,136,.06)}
+
+ .route-double .ou-podium-1 .ou-podium-medal{color:#f4c96b}
  .route-double .ou-podium-3 .ou-podium-medal{color:#cb9b7b}
  .route-double .ou-podium-place{font-size:10px;font-weight:800;letter-spacing:.09em;color:#aeb3ba;margin:7px 0}
  .route-double .ou-podium-1 .ou-podium-place{color:#f4c96b}
