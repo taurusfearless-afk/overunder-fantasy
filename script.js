@@ -38,15 +38,22 @@ function matchCard(m,label){const a=resolveTeamRef(m.teamA),b=resolveTeamRef(m.t
 function cup(){
  const rounds=[['PRELIMINARNA',DATA.cup.prelim],['ROUND OF 16',DATA.cup.r16],['ČETVRTFINALE',DATA.cup.quarters],['POLUFINALE',DATA.cup.semis],['FINALE',DATA.cup.final]],champ=winnerOf('f1');
  const chips=(DATA.teams||[]).map(t=>`<span class="draw-chip">${t.name}</span>`).join('');
- return shell(`<section class="page-head"><h1>OVERUNDER KUP</h1><p>18 učesnika · prvi do 3 pobede · trenutni rezultat se prikazuje automatski</p></section>
+ return shell(`<style>
+.route-cup .ou-cup-clock{margin:18px 0;padding:24px 16px;text-align:center;border:1px solid rgba(235,191,104,.48);border-radius:21px;background:radial-gradient(ellipse at 50% 0,rgba(224,175,75,.16),transparent 65%),linear-gradient(145deg,#1b1711,#08090c);box-shadow:inset 0 2px 0 rgba(246,205,127,.35),0 16px 35px rgba(0,0,0,.3)}
+.route-cup .ou-cup-clock-kicker{font-size:11px;font-weight:800;letter-spacing:.15em;color:#e9c27c}
+.route-cup .ou-cup-clock h3{font-size:clamp(20px,5vw,32px);color:#fff;margin:12px 0 8px}
+.route-cup .ou-cup-clock-digits{font-variant-numeric:tabular-nums;font-family:'Bebas Neue',Impact,sans-serif;letter-spacing:.075em;font-size:clamp(52px,13vw,98px);line-height:1.1;color:#f2ce83;text-shadow:0 0 25px rgba(238,190,96,.22)}
+.route-cup .ou-cup-clock p{color:#bcb3a1;font-size:12px;margin:10px 0 0}
+.route-cup .draw-note{margin:12px 0 20px}
+</style><section class="page-head"><h1>OVERUNDER KUP</h1><p>18 učesnika · prvi do 3 pobede · trenutni rezultat se prikazuje automatski</p></section>
  <section class="cup-draw card" id="cupDraw">
   <div class="draw-top"><div><div class="eyebrow">TEST MODE · PREMIUM LIVE DRAW</div><h2>ŽREB ZA OVERUNDER KUP</h2><p>Svaka kuglica odmah dobija svoje mesto. Prvo Play-In, zatim direktno punimo kostur glavnog žreba.</p></div><div class="draw-status" id="drawStatus">SPREMNO</div></div>
   <div class="draw-stage">
    <div class="draw-machine" id="drawMachine"><div class="draw-rings"><i></i><i></i><i></i></div><div class="draw-ball premium-asset" id="drawBall"><img src="assets/ou-ball-premium.webp" alt="OverUnder premium basketball"></div><div class="draw-sparks"></div><small>OVERUNDER</small></div>
    <div class="draw-reveal"><small id="drawStep">Klikni „Pokreni žreb”</small><strong id="drawName">KO ĆE PRVI?</strong><div class="draw-search" id="drawSearch">ČEKA SE POČETAK ŽREBA</div><div class="draw-counter" id="drawCounter">0 / 18</div></div><div class="vs-lock" id="vsLock"><small>PAR JE ZAKLJUČAN</small><div><strong id="vsA">TIM A</strong><b>VS</b><strong id="vsB">TIM B</strong></div></div><div class="draw-final" id="drawFinal"><small>KONAČAN ŽREB</small><h2>OVERUNDER KUP</h2><div id="drawFinalPairs"></div><div class="final-countdown">ZATVARANJE ZA <b id="finalCountdown">10</b>s</div></div>
   </div>
-  <div class="draw-actions"><button class="draw-btn primary" id="drawStart" onclick="cupDrawStart()">POKRENI ŽREB</button><button class="draw-btn" id="drawNext" onclick="cupDrawNext()" disabled>IZVUCI SLEDEĆI TIM</button><button class="draw-btn danger" onclick="cupDrawReset()">RESET TESTA</button></div>
-  <div class="draw-note">TEST MODE · ništa se ne upisuje u zvanični Kup dok ne odobrimo finalnu verziju.</div>
+  <div class="ou-cup-clock" id="ouCupClock" aria-live="off"><div class="ou-cup-clock-kicker">OVERUNDER KUP · ZVANIČNI ŽREB</div><h3 id="ouCupClockTitle">POČETAK VEČERAS U 20:00</h3><div class="ou-cup-clock-digits" id="ouCupClockDigits">-- : -- : --</div><p id="ouCupClockInfo">23. novembar 2026. · 20:00 · vreme Beograda</p></div>
+  <div class="draw-note">Zajednički žreb za svih 18 timova · svi posetioci vide iste parove u isto vreme.</div>
   <div class="draw-pool" id="drawPool">${chips}</div>
   <div class="live-bracket">
    <section class="playin-board"><h3>PLAY-IN · 4 TIMA</h3><div class="bracket-match"><b>PLAY-IN 1</b><span id="slot1">ČEKA ŽREB</span><em>VS</em><span id="slot2">ČEKA PROTIVNIKA</span></div><div class="bracket-match"><b>PLAY-IN 2</b><span id="slot3">ČEKA ŽREB</span><em>VS</em><span id="slot4">ČEKA PROTIVNIKA</span></div></section>
@@ -64,22 +71,65 @@ function cup(){
  </section>
  <section class="grid stats"><div class="card stat"><small>Učesnici</small><b>18</b></div><div class="card stat"><small>Format</small><b>BEST OF 5</b></div><div class="card stat"><small>Za prolaz</small><b>3 POBEDE</b></div><div class="card stat"><small>Početak</small><b>${DATA.meta.cupStartText}</b></div></section><div class="cup-columns">${rounds.map(([t,ms])=>`<section class="cup-round"><h3>${t}</h3>${ms.map((m,i)=>matchCard(m,`${t} ${i+1}`)).join('')}</section>`).join('')}</div><div class="card record-hero" style="margin-top:16px"><div class="eyebrow">CHAMPION</div><h2>${champ?nameOf(champ):'TBD'}</h2></div>`,'cup');
 }
-let CUP_DRAW={order:[],index:0,started:false,busy:false};
-function cupDrawShuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function cupDrawStart(){if(CUP_DRAW.started)return;CUP_DRAW={order:cupDrawShuffle(DATA.teams||[]),index:0,started:true,busy:false};document.getElementById('drawStart').disabled=true;document.getElementById('drawNext').disabled=false;document.getElementById('drawStatus').textContent='LIVE · ŽREB U TOKU';document.getElementById('drawStep').textContent='Prva 4 tima određuju Play-In';cupDrawNext()}
-function cupDrawNext(){
- if(!CUP_DRAW.started||CUP_DRAW.busy||CUP_DRAW.index>=18)return;
- CUP_DRAW.busy=true;const machine=document.getElementById('drawMachine'),name=document.getElementById('drawName'),next=document.getElementById('drawNext'),search=document.getElementById('drawSearch');next.disabled=true;machine.classList.add('spinning');name.textContent='?';search.classList.add('active');
- const target=CUP_DRAW.order[CUP_DRAW.index],slot=CUP_DRAW.index+1,isOpponent=slot%2===0;
- const messages=isOpponent?['BUBANJ SE OKREĆE…','TRAŽIMO PROTIVNIKA…','KO IDE NA MEGDAN?','POSLEDNJE KUGLICE U POKRETU…','PROTIVNIK JE…']:['BUBANJ SE OKREĆE…','KUGLICE SU U POKRETU…','IZBOR JE SVE BLIŽI…','KO IZLAZI SLEDEĆI?','IZVUČEN JE…'];
- let mi=0;search.textContent=messages[0];const msgTimer=setInterval(()=>{mi=Math.min(mi+1,messages.length-1);search.textContent=messages[mi]},1000);
- const flicker=setInterval(()=>{const pool=CUP_DRAW.order.slice(CUP_DRAW.index);if(pool.length)name.textContent=pool[Math.floor(Math.random()*pool.length)].name},145);
- setTimeout(()=>{clearInterval(msgTimer);clearInterval(flicker);name.textContent=target.name;search.textContent=isOpponent?'PROTIVNIK PRONAĐEN':'TIM IZVUČEN';search.classList.remove('active');document.getElementById('drawCounter').textContent=`${slot} / 18`;document.getElementById('drawStep').textContent=slot<=4?`PLAY-IN · KUGLICA ${slot}`:`ROUND OF 16 · KUGLICA ${slot}`;const dest=document.getElementById(`slot${slot}`);if(dest){dest.textContent=target.name;dest.classList.add('revealed')}const chip=[...document.querySelectorAll('#drawPool .draw-chip')].find(x=>x.textContent===target.name);if(chip)chip.classList.add('drawn');CUP_DRAW.index=slot;CUP_DRAW.busy=false;machine.classList.remove('spinning');if(slot%2===0){const lock=document.getElementById('vsLock'),a=document.getElementById('vsA'),b=document.getElementById('vsB');a.textContent=CUP_DRAW.order[slot-2].name;b.textContent=target.name;lock.classList.remove('show');void lock.offsetWidth;lock.classList.add('show');setTimeout(()=>lock.classList.remove('show'),5000)}if(slot===18){document.getElementById('drawStatus').textContent='ŽREB ZAVRŠEN';document.getElementById('drawStep').textContent='KOSTUR JE KOMPLETIRAN';search.textContent='SREĆNO SVIMA';next.disabled=true;setTimeout(cupDrawFinalShow,5200)}else{next.disabled=false;if(slot%2===1)next.textContent='PRONAĐI PROTIVNIKA';else next.textContent='IZVUCI SLEDEĆI TIM'}},5000)
+// One published draw seed and one Europe/Belgrade start instant: all viewers see identical pairings.
+const OU_CUP_START=Date.parse('2026-11-23T20:00:00+01:00');
+const OU_CUP_STEP_MS=25000;
+const OU_CUP_SEED=20261123;
+let OU_CUP_TIMER=null;
+function ouCupOrder(){
+ const teams=[...(DATA.teams||[])].sort((a,b)=>a.id.localeCompare(b.id));
+ let seed=OU_CUP_SEED;
+ const rand=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296};
+ for(let i=teams.length-1;i>0;i--){const j=Math.floor(rand()*(i+1));[teams[i],teams[j]]=[teams[j],teams[i]]}
+ return teams;
 }
-function cupDrawReset(){CUP_DRAW={order:[],index:0,started:false,busy:false};for(let i=1;i<=18;i++){const el=document.getElementById(`slot${i}`);if(el){el.textContent=i%2===0?'ČEKA PROTIVNIKA':'ČEKA ŽREB';el.classList.remove('revealed')}}document.querySelectorAll('#drawPool .draw-chip').forEach(x=>x.classList.remove('drawn'));document.getElementById('drawCounter').textContent='0 / 18';document.getElementById('drawName').textContent='KO ĆE PRVI?';document.getElementById('drawStep').textContent='Klikni „Pokreni žreb”';document.getElementById('drawSearch').textContent='ČEKA SE POČETAK ŽREBA';document.getElementById('drawStatus').textContent='SPREMNO';document.getElementById('vsLock')?.classList.remove('show');document.getElementById('drawFinal')?.classList.remove('show');document.getElementById('drawStart').disabled=false;document.getElementById('drawNext').disabled=true;document.getElementById('drawNext').textContent='IZVUCI SLEDEĆI TIM'}
-
-function cupDrawFinalShow(){if(CUP_DRAW.index!==18)return;const box=document.getElementById('drawFinal'),pairs=document.getElementById('drawFinalPairs');let html='<div class="final-section"><h3>PLAY-IN</h3>';html+=`<div><span>${CUP_DRAW.order[0].name}</span><b>VS</b><span>${CUP_DRAW.order[1].name}</span></div><div><span>${CUP_DRAW.order[2].name}</span><b>VS</b><span>${CUP_DRAW.order[3].name}</span></div></div><div class="final-section"><h3>ROUND OF 16</h3>`;for(let i=4;i<16;i+=2)html+=`<div><span>${CUP_DRAW.order[i].name}</span><b>VS</b><span>${CUP_DRAW.order[i+1].name}</span></div>`;html+=`<div><span>${CUP_DRAW.order[16].name}</span><b>VS</b><span>POBEDNIK PLAY-IN 1</span></div><div><span>${CUP_DRAW.order[17].name}</span><b>VS</b><span>POBEDNIK PLAY-IN 2</span></div></div>`;pairs.innerHTML=html;box.classList.add('show');let n=10;document.getElementById('finalCountdown').textContent=n;const timer=setInterval(()=>{n--;const el=document.getElementById('finalCountdown');if(el)el.textContent=Math.max(0,n);if(n<=0){clearInterval(timer);box.classList.remove('show')}},1000)}
-
+function ouCupUpdate(){
+ const root=document.getElementById('ouCupClock');
+ if(!root){if(OU_CUP_TIMER){clearInterval(OU_CUP_TIMER);OU_CUP_TIMER=null}return}
+ const now=Date.now(),remaining=OU_CUP_START-now;
+ const title=document.getElementById('ouCupClockTitle'),digits=document.getElementById('ouCupClockDigits'),info=document.getElementById('ouCupClockInfo');
+ const order=ouCupOrder(),revealed=Math.min(order.length,Math.max(0,Math.floor((now-OU_CUP_START)/OU_CUP_STEP_MS)+1));
+ if(remaining>0){
+  const sec=Math.ceil(remaining/1000),pad=n=>String(n).padStart(2,'0');
+  title.textContent='POČETAK ŽREBA U 20:00';
+  digits.textContent=pad(Math.floor(sec/3600))+':'+pad(Math.floor(sec%3600/60))+':'+pad(sec%60);
+  info.textContent='23. novembar 2026. · vreme Beograda · svi gledaju isti žreb';
+ }else if(revealed<order.length){
+  const until=OU_CUP_STEP_MS-((now-OU_CUP_START)%OU_CUP_STEP_MS);
+  title.textContent='ŽREB JE U TOKU · UŽIVO';
+  digits.textContent=String(Math.ceil(until/1000)).padStart(2,'0')+' s';
+  info.textContent='Izvučeno '+revealed+' od '+order.length+' timova · sledeća kuglica uskoro';
+ }else{
+  title.textContent='ŽREB JE ZAVRŠEN';
+  digits.textContent='18 / 18';
+  info.textContent='Zvanični parovi su prikazani ispod i ostaju dostupni svima';
+ }
+ const status=document.getElementById('drawStatus'),step=document.getElementById('drawStep'),name=document.getElementById('drawName'),search=document.getElementById('drawSearch'),counter=document.getElementById('drawCounter'),machine=document.getElementById('drawMachine');
+ if(status)status.textContent=remaining>0?'POČINJE U 20:00':revealed===18?'ŽREB ZAVRŠEN':'LIVE · ŽREB U TOKU';
+ if(counter)counter.textContent=revealed+' / 18';
+ if(step)step.textContent=remaining>0?'23. NOVEMBAR · 20:00':revealed===18?'KOSTUR JE KOMPLETIRAN':revealed<=4?'PLAY-IN · KUGLICA '+revealed:'ROUND OF 16 · KUGLICA '+revealed;
+ if(name)name.textContent=revealed?order[revealed-1].name:'KO ĆE PRVI?';
+ if(search)search.textContent=remaining>0?'ČEKA SE POČETAK ŽREBA':revealed===18?'SREĆNO SVIMA':'SLEDEĆI TIM USKORO';
+ if(machine)machine.classList.toggle('spinning',remaining<=0&&revealed<18);
+ for(let i=0;i<18;i++){
+  const slot=document.getElementById('slot'+(i+1));if(slot){slot.textContent=i<revealed?order[i].name:(i%2?'ČEKA PROTIVNIKA':'ČEKA ŽREB');slot.classList.toggle('revealed',i<revealed)}
+ }
+ document.querySelectorAll('#drawPool .draw-chip').forEach(el=>el.classList.toggle('drawn',order.slice(0,revealed).some(t=>t.name===el.textContent)));
+ const lock=document.getElementById('vsLock');if(lock)lock.classList.remove('show');
+ const final=document.getElementById('drawFinal'),pairs=document.getElementById('drawFinalPairs');
+ if(final&&pairs){
+  if(revealed===18){
+   let html='<div class="final-section"><h3>PLAY-IN</h3>';
+   html+='<div><span>'+order[0].name+'</span><b>VS</b><span>'+order[1].name+'</span></div><div><span>'+order[2].name+'</span><b>VS</b><span>'+order[3].name+'</span></div></div><div class="final-section"><h3>ROUND OF 16</h3>';
+   for(let i=4;i<16;i+=2)html+='<div><span>'+order[i].name+'</span><b>VS</b><span>'+order[i+1].name+'</span></div>';
+   html+='<div><span>'+order[16].name+'</span><b>VS</b><span>POBEDNIK PLAY-IN 1</span></div><div><span>'+order[17].name+'</span><b>VS</b><span>POBEDNIK PLAY-IN 2</span></div></div>';
+   if(pairs.innerHTML!==html)pairs.innerHTML=html;
+   final.classList.add('show');
+   const countdown=document.getElementById('finalCountdown');if(countdown)countdown.parentElement.style.display='none';
+  }else final.classList.remove('show');
+ }
+}
+function ouCupInit(){if(OU_CUP_TIMER)clearInterval(OU_CUP_TIMER);ouCupUpdate();OU_CUP_TIMER=setInterval(ouCupUpdate,1000)}
 function budgetRows(){return DATA.budget.map((b,i)=>{const total=(Number(b.participation)||0)+(Number(b.league)||0),paid=Number(b.paid)||0,outstanding=Math.max(0,total-paid),status=outstanding===0?'paid':'owes';return {...b,total,paid,outstanding,status,seed:i}})}
 function budget(){const rows=budgetRows(),collected=rows.reduce((s,r)=>s+r.paid,0),out=rows.reduce((s,r)=>s+r.outstanding,0);const tr=rows.map((r,i)=>`<tr><td>${i+1}</td><td class="team">${nameOf(r.teamId)}</td><td>${fmt(r.participation)}</td><td>${fmt(r.league)}</td><td><b>${fmt(r.total)}</b></td><td><span class="status ${r.status}">${r.status==='paid'?'PLAĆENO':'DUGUJE'} · ${fmt(r.outstanding)} RSD</span></td></tr>`).join('');return shell(`<section class="page-head"><h1>BUDŽET</h1><p>Pregled uplata, dugovanja i stanja</p></section><section class="grid stats"><div class="card stat"><small>Učesnici</small><b>${rows.length}</b></div><div class="card stat"><small>Naplaćeno</small><b>${fmt(collected)} RSD</b></div><div class="card stat"><small>Dugovanje</small><b>${fmt(out)} RSD</b></div><div class="card stat"><small>Kotizacija</small><b>${fmt(DATA.meta.entryFee)} RSD</b></div></section>${podiumHtml}<div class="ou-standings-head"><h2>DONJI DEO TABELE</h2><div class="ou-standings-rule"></div><span>12—18. MESTO</span></div><div class="table-wrap"><table><thead><tr><th>#</th><th>NAZIV TIMA</th><th>UČEŠĆE</th><th>LIGA</th><th>UKUPNO</th><th>STATUS</th></tr></thead><tbody>${tr}</tbody></table></div><section class="card payment-card"><div><small>BROJ RAČUNA ZA UPLATU</small><h3>${DATA.payment.bank}</h3><strong>${DATA.payment.account}</strong><p>${DATA.payment.holder}</p></div><button class="copy-btn" onclick="navigator.clipboard?.writeText('${DATA.payment.account}');this.textContent='KOPIRANO ✓'">KOPIRAJ BROJ RAČUNA</button></section>`,'budget');}
 function doublePage(){
@@ -311,7 +361,7 @@ function hall(){
   <section class="hof-section" id="hall-archive"><div class="hof-section-heading"><span class="hof-section-icon">▤</span><div><h2>ARHIVA SEZONA</h2><p>Pregled svih zabeleženih osvajača</p></div></div><div class="hof-archive">${seasons.map(s=>`<div class="hof-season"><h3>${s}</h3>${[['Liga',h.league],['Kup',h.cup],['Liga 31',h.league31]].map(([t,a])=>{const x=a.find(z=>z.season===s);return x?`<div><span>${t}</span><b>${x.winner}</b></div>`:''}).join('')}</div>`).join('')}</div></section><p class="hof-footnote">Kuća slavnih se dopunjava novim podacima i završenim sezonama.</p>`,'hall');
 }
 document.addEventListener('click',function(event){const link=event.target.closest('[data-hof-target]');if(!link)return;event.preventDefault();const target=document.getElementById(link.dataset.hofTarget);if(target)target.scrollIntoView({behavior:'smooth',block:'start'});});
-function render(){const r=route(),fn={home,league,cup,double:doublePage,budget,record,hall,rules}[r]||home;document.getElementById('app').innerHTML=fn();initNav();window.scrollTo(0,0)}document.getElementById('app').addEventListener('click',function(event){
+function render(){const r=route(),fn={home,league,cup,double:doublePage,budget,record,hall,rules}[r]||home;document.getElementById('app').innerHTML=fn();initNav();if(r==='cup')ouCupInit();else if(OU_CUP_TIMER){clearInterval(OU_CUP_TIMER);OU_CUP_TIMER=null}window.scrollTo(0,0)}document.getElementById('app').addEventListener('click',function(event){
   const link=event.target.closest('[data-hof-target]');
   if(!link)return;
   event.preventDefault();
