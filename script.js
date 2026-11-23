@@ -47,7 +47,7 @@ function cup(){
 .route-cup .draw-note{margin:12px 0 20px}
 </style><section class="page-head"><h1>OVERUNDER KUP</h1><p>18 učesnika · prvi do 3 pobede · trenutni rezultat se prikazuje automatski</p></section>
  <section class="cup-draw card" id="cupDraw">
-  <div class="draw-top"><div><div class="eyebrow">TEST MODE · PREMIUM LIVE DRAW</div><h2>ŽREB ZA OVERUNDER KUP</h2><p>Svaka kuglica odmah dobija svoje mesto. Prvo Play-In, zatim direktno punimo kostur glavnog žreba.</p></div><div class="draw-status" id="drawStatus">SPREMNO</div></div>
+  <div class="draw-top"><div><div class="eyebrow">ZVANIČNI ŽREB · AUTOMATSKI LIVE DRAW</div><h2>ŽREB ZA OVERUNDER KUP</h2><p>Jedan zajednički žreb za sve. Prvo Play-In, zatim glavni kostur. Izvučeni parovi su zaključani.</p></div><div class="draw-status" id="drawStatus">SPREMNO</div></div>
   <div class="draw-stage">
    <div class="draw-machine" id="drawMachine"><div class="draw-rings"><i></i><i></i><i></i></div><div class="draw-ball premium-asset" id="drawBall"><img src="assets/ou-ball-premium.webp" alt="OverUnder premium basketball"></div><div class="draw-sparks"></div><small>OVERUNDER</small></div>
    <div class="draw-reveal"><small id="drawStep">Klikni „Pokreni žreb”</small><strong id="drawName">KO ĆE PRVI?</strong><div class="draw-search" id="drawSearch">ČEKA SE POČETAK ŽREBA</div><div class="draw-counter" id="drawCounter">0 / 18</div></div><div class="vs-lock" id="vsLock"><small>PAR JE ZAKLJUČAN</small><div><strong id="vsA">TIM A</strong><b>VS</b><strong id="vsB">TIM B</strong></div></div><div class="draw-final" id="drawFinal"><small>KONAČAN ŽREB</small><h2>OVERUNDER KUP</h2><div id="drawFinalPairs"></div><div class="final-countdown">ZATVARANJE ZA <b id="finalCountdown">10</b>s</div></div>
