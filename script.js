@@ -10,6 +10,8 @@ try {
   DATA = local ? JSON.parse(local) : structuredClone(RAW);
   // Published league finances, double-round results and records are authoritative.
   // An old local admin preview must never overwrite these official values.
+  DATA.teams = structuredClone(RAW.teams);
+  DATA.cup = structuredClone(RAW.cup);
   DATA.budget = structuredClone(RAW.budget);
   DATA.doubleRounds = structuredClone(RAW.doubleRounds);
   DATA.highScores = structuredClone(RAW.highScores);
